@@ -10,7 +10,7 @@ building-latex-master:
     - latexmk -bibtex -pdf main.tex
   artifacts:
     paths:
-      - "paper/main.tex"
+      - "paper/main.pdf"
     expire_in: 2 years
   only:
     - main
