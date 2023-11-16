@@ -6,7 +6,8 @@ stages:
 building-latex-master:
   stage: build
   script:
-    - latexmk -bibtex -pdf paper/main.tex
+    - cd paper
+    - latexmk -bibtex -pdf main.tex
   artifacts:
     paths:
       - "paper/main.tex"
@@ -17,7 +18,8 @@ building-latex-master:
 building-latex-other-branch:
   stage: build
   script:
-    - latexmk -bibtex -pdf paper/main.tex
+    - cd paper
+    - latexmk -bibtex -pdf main.tex
   artifacts:
     paths:
       - "paper/main.pdf"
@@ -32,7 +34,7 @@ building-markdown-master:
     - pandoc -s ./paper/main.tex  -o ./temp.md
   artifacts:
     paths:
-      - "paper/temp.pdf"
+      - "temp.md"
     expire_in: 1 hour
   only:
     - master
