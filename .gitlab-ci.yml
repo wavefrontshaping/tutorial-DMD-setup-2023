@@ -24,3 +24,15 @@ building-latex-other-branch:
     expire_in: 2 weeks
   except:
     - master
+
+building-markdown-master:
+  image: ntwrkguru/pandoc-gitlab-ci
+  stage: build
+  script:
+    - pandoc -s ./paper/main.tex  -o ./temp.md
+  artifacts:
+    paths:
+      - "paper/temp.pdf"
+    expire_in: 1 hour
+  only:
+    - master
