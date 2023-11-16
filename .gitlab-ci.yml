@@ -1,0 +1,25 @@
+image: texlive/texlive
+
+stages: build
+
+building-latex-master:
+  stage: build
+  script:
+    - latexmk -bibtex -pdf paper/main.tex
+  artifacts:
+    paths:
+      - "paper/main.tex"
+    expire_in: 2 year
+  only:
+    - master
+
+building-latex-other-branch:
+  stage: build
+  script:
+    - latexmk -bibtex -pdf paper/main.tex
+  artifacts:
+    paths:
+      - "paper/main.pdf"
+    expire_in: 2 week
+  except:
+    - master
