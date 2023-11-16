@@ -34,7 +34,7 @@ building-markdown-master:
     - pandoc -s ./paper/main.tex  -o ./temp.md
   artifacts:
     paths:
-      - "temp.md"
+      - "README.md"
     expire_in: 1 hour
   only:
     - main
