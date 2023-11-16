@@ -1,6 +1,7 @@
 image: texlive/texlive
 
-stages: build
+stages:
+  - build
 
 building-latex-master:
   stage: build
@@ -9,7 +10,7 @@ building-latex-master:
   artifacts:
     paths:
       - "paper/main.tex"
-    expire_in: 2 year
+    expire_in: 2 years
   only:
     - master
 
@@ -20,6 +21,6 @@ building-latex-other-branch:
   artifacts:
     paths:
       - "paper/main.pdf"
-    expire_in: 2 week
+    expire_in: 2 weeks
   except:
     - master
