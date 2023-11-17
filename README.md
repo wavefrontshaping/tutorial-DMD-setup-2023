@@ -21,4 +21,44 @@ Download last PDF version of the article [here](/../-/jobs/artifacts/main/browse
 
 ## [/python](python/): Python examples
 
-### 1. [Experimental_aberration_correction.ipynb](python/Experimental_aberration_correction.ipynb): Data analysis of the experimental characterization of the DMD aberrations
+### Global requirements
+
+- scipy
+- numpy
+- matplotlib
+
+Install with:
+
+```bash
+pip install scipy, numpy
+```
+
+or
+
+```bash
+conda install scipy, numpy, aotools
+```
+
+### 1. [DMD_diffraction_effects.ipynb.ipynb](python/DMD_diffraction_effects.ipynb.ipynb): Simulation of DMD diffraction effects
+
+See also our online tool on [wavevrontshaping.net](https://www.wavefrontshaping.net/post/id/49)
+
+### 2. [Experimental_aberration_correction.ipynb](python/Experimental_aberration_correction.ipynb): Data analysis of the experimental characterization of the DMD aberrations
+
+### 3. [Simulation_aberration_correction.ipynb](python/Simulation_aberration_correction.ipynb): Simulation of aberration compensation optimization
+
+### Additional requirements
+
+- aotools (for Zernike polynomials)
+
+```bash
+pip install scipy, numpy, aotools
+```
+
+### Requirements \[optional\]
+
+- EasyOptimization
+
+```bash
+pip install git+https://gitlab.institut-langevin.espci.fr/spopoff/EasyOptimization.git
+```
