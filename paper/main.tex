@@ -45,6 +45,7 @@
 
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{orcidlink}
 
 \usepackage{amsfonts}
 \expandafter\let\csname equation*\endcsname\relax
@@ -134,15 +135,15 @@ arc=0pt,outer arc=0pt,
 
 \title{A practical guide to Digital Micro-mirror Devices (DMDs) for wavefront shaping}
 
-\author{Sébastien M. Popoff}
+\author{Sébastien M. Popoff~\orcidlink{0000-0002-7199-9814}}
 \address{Institut Langevin, ESPCI Paris, PSL University, CNRS, France}
 \ead{sebastien.popoff@espci.psl.eu}
 
-\author{Rodrigo Gutiérrez-Cuevas}
+\author{Rodrigo Gutiérrez-Cuevas~\orcidlink{0000-0002-3451-6684}}
 \address{Institut Langevin, ESPCI Paris, PSL University, CNRS, France}
 \ead{rodrigo.gutierrez-cuevas@espci.psl.eu>}
 
-\author{Yaron Bromberg}
+\author{Yaron Bromberg~\orcidlink{0000-0003-2565-7394}}
 \address{Racah Institute of Physics, The Hebrew University of Jerusalem, Israel}
 
 \author{Maxime W. Matthès}
@@ -187,26 +188,30 @@ which allow for the control of light phase across typically more than a million 
 have emerged as powerful tools for wavefront shaping in complex media
 since the seminal work of A. Most and I. Vellekoop in the mid-2000s~\cite{Vellekoop2007focusing}.
 Nonetheless, LC-SLMs are hampered by their slow response time,
-permitting only a modulation speed ranging from a few Hz to about 100 Hz.
+permitting only a modulation speed ranging from a few Hz to about 100 Hz.\\
+
 Digital Micromirror Devices (DMDs) have emerged as a technology bridging the gap
 between these two types of systems;
 they offer a large number of pixels (similar to LC-SLMs) and fast modulation speeds (typically up to several tens of kHz).
-However, DMDs are restricted to binary amplitude modulation and are not optimized for coherent light applications.
+Their high speed capabilities made them attractive for real-time applications,
+in particular for high-resolution imaging microscopy
+requiring fast scanning or illumination shaping~\cite{Cha2000,Zhuang2020},
+biolithography~\cite{yoon2018emerging},
+and optical tweezers~\cite{Gauthier2016}.
+However, DMDs are restricted to hardware binary amplitude modulation and are not optimized for coherent light applications.
 Utilizing DMDs for coherent control of light in complex media is therefore non-trivial
-and necessitates specific adaptations for efficient use.
-While other articles exist describing the various aspects of DMDs~\cite{Park2015properties, Cox2021converting, Wang2023diffraction},
-this tutorial aims to provide a guide for easily setting up a DMD for wavefront shaping applications in complex media.
-In particular, we provide characterization and validation procedures that requires minimal changes compared to typical wavefront shaping setups.\\
+and necessitates specific adaptations for efficient use.\\
 
-REVIEW en bio imaging~\cite{Zhuang2020}
+
+
 
 To comprehend both the capabilities and limitations
 of DMD technology for coherent wavefront shaping,
 it is crucial to understand the device's operating principles
 and its original design intentions.
-Investigated and developed by Texas Instruments since the late 1970s,
-DMDs gained prominence in the 1990s for video projection applications
-under the commercial name of Digital Light Processing (DLP)~\cite{Dudley2003emerging}.
+Investigated and developed by Texas Instruments since the 1980s,
+DMDs gained prominence in the 1990s for video projection applications since the 1990s
+under the commercial name of Digital Light Processing (DLP)~\cite{Hornbeck1997,Dudley2003emerging}.
 The technology enables high-resolution, high-speed, and high-contrast-ratio modulation of light.\\
 DMDs operate by toggling the state of small mirrors between two distinct angles, denoted as $\pm \theta_\text{DMD}$.
 The device is originally engineered for amplitude modulation in video projection applications.
@@ -236,13 +241,21 @@ and will not be elaborated upon here.
 For the remainder of this paper, it will be assumed that the DMD is used for complex modulation via such a method.\\
 % While the present tutorial is not constrained to any specific device,
 % the software section will predominantly focus on the Vialux control board.
-In the first part, we present the diffraction properties of a DMD
-and detail how they may affect the efficiency of the system.
-We provide a simple criteria for choosing the correct DMD parameters for a given excitation wavelenght.
-In the second part, we detail the aberration effects induced but the non-flatness of the DMD surface.
-We show how to simply characterize and compensate this effect.
-In the third section, we describe the effect of mechanmical vibrations induced by the cooling system of the DMD.
-Finally, we show how the thermalization of the DMD chip can induce fluctuations of the DMD response over time.
+
+While other articles exist describing the various aspects of DMDs~\cite{Park2015properties, Scholes2019structured, Cox2021converting, Wang2023diffraction},
+this tutorial aims to provide a guide for easily setting up a DMD for wavefront shaping applications in complex media.
+In particular, we provide characterization and validation procedures that requires minimal changes compared to typical wavefront shaping setups.\\
+We first introduce the diffraction properties of a DMD
+and elaborate on how these could impact the system's efficiency.
+We also furnish a straightforward criterion for selecting the appropriate DMD parameters for a specified excitation wavelength.
+In the next section,
+we delve into the aberration impacts brought about by the non-flatness of the DMD surface.
+We demonstrate a simple process to characterize this effect and provide compensation solutions.
+In the third segment,
+we detail the influence of mechanical vibrations that are induced by the DMD's cooling system.
+Lastly, we discuss how the thermalization of the DMD chip can potentially result in variations to the DMD response over time.
+
+
 
 
 
@@ -1040,8 +1053,9 @@ as demonstrated in Fig.~\ref{fig:phase_vibrations} (blue curve).\\
   \includegraphics[width = 0.95\textwidth]{images/dumping.pdf}
   \caption{
     \textbf{Dumping mechanical vibrations.}
-    ...
-    \label{fig:dumping}
+    Pictures of experimental setups where a damping of the vibrations is implemented.
+    (a) The flat cable is secured with foam and metallic plates.
+    (b) The flat cable is in tension against a foam material supported by a metallic plate.
   }
   \label{fig:dumping}
 \end{figure}
