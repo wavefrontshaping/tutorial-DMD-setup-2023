@@ -3,7 +3,7 @@ image: texlive/texlive
 stages:
   - build
 
-building-latex-master:
+building-latex-main:
   stage: build
   script:
     - cd paper
@@ -15,7 +15,7 @@ building-latex-master:
   only:
     - main
 
-building-latex-other-branch:
+building-latex-other-main:
   stage: build
   script:
     - cd paper
@@ -26,15 +26,14 @@ building-latex-other-branch:
     expire_in: 2 weeks
   except:
     - main
-
-building-markdown-master:
-  image: ntwrkguru/pandoc-gitlab-ci
-  stage: build
-  script:
-    - pandoc -s ./paper/main.tex  -o ./temp.md
-  artifacts:
-    paths:
-      - "README.md"
-    expire_in: 1 hour
-  only:
-    - main
+# building-markdown-master:
+#   image: ntwrkguru/pandoc-gitlab-ci
+#   stage: build
+#   script:
+#     - pandoc -s ./paper/main.tex  -o ./temp.md
+#   artifacts:
+#     paths:
+#       - "README.md"
+#     expire_in: 1 hour
+#   only:
+#     - main
