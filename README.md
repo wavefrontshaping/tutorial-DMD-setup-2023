@@ -17,7 +17,7 @@
 
 ## [/paper](paper/): Latex sources for the article
 
-Download last PDF version of the article [here](https://github.com/wavefrontshaping/tutorial-DMD-setup-2023/actions/runs/${{github.run_id}})
+Download last PDF version of the article [here](./paper/main.tex)
 
 ## [/python](python/): Python examples
 
