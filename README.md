@@ -19,7 +19,7 @@
 
 |                       ![video](./python/movie_evol_n_zernike_psf.gif)                        |
 | :------------------------------------------------------------------------------------------: |
-| **evolution of the PSF with the number of Zernike polynomials (Nz) usef for the correction** |
+| **Evolution of the PSF with the number of Zernike polynomials (Nz) usef for the correction** |
 
 ## [/paper](paper/): Latex sources for the article
 
