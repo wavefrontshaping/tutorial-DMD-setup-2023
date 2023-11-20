@@ -17,7 +17,7 @@
 
 ## [/paper](paper/): Latex sources for the article
 
-Download last PDF version of the article [here](/../-/jobs/artifacts/main/browse?job=building-latex-main)
+Download last PDF version of the article [here](/../../actions/runs/${{ github.run_id }})
 
 ## [/python](python/): Python examples
 
