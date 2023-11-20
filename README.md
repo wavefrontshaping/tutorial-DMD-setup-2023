@@ -15,7 +15,7 @@
 }
 ```
 
-## Suplementary animation:
+## Supplementary animation:
 
 |                       ![video](./python/movie_evol_n_zernike_psf.gif)                        |
 | :------------------------------------------------------------------------------------------: |
