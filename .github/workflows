@@ -1,0 +1,52 @@
+name: Build LaTeX Documents
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-latex-main:
+    runs-on: ubuntu-latest
+    container: texlive/texlive
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build LaTeX Document
+      run: |
+        cd paper
+        latexmk -bibtex -pdf main.tex
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: main.pdf
+        path: paper/main.pdf
+        retention-days: 730
+
+  build-latex-other-main:
+    runs-on: ubuntu-latest
+    container: texlive/texlive
+    if: github.ref != 'refs/heads/main'
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build LaTeX Document
+      run: |
+        cd paper
+        latexmk -bibtex -pdf main.tex
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: main.pdf
+        path: paper/main.pdf
+        retention-days: 14
+
