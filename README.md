@@ -36,7 +36,7 @@ pip install scipy, numpy
 or
 
 ```bash
-conda install scipy, numpy, aotools
+conda install scipy, numpy
 ```
 
 ### 1. [DMD_diffraction_effects.ipynb.ipynb](python/DMD_diffraction_effects.ipynb.ipynb): Simulation of DMD diffraction effects
@@ -44,6 +44,20 @@ conda install scipy, numpy, aotools
 See also our online tool on [wavevrontshaping.net](https://www.wavefrontshaping.net/post/id/49)
 
 ### 2. [Experimental_aberration_correction.ipynb](python/Experimental_aberration_correction.ipynb): Data analysis of the experimental characterization of the DMD aberrations
+
+### Requirements \[optional - for video\]
+
+- cv2
+
+```bash
+pip install opencv-python
+```
+
+or
+
+```bash
+conda install -c anaconda opencv
+```
 
 ### 3. [Simulation_aberration_correction.ipynb](python/Simulation_aberration_correction.ipynb): Simulation of aberration compensation optimization
 

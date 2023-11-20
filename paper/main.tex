@@ -141,7 +141,7 @@ arc=0pt,outer arc=0pt,
 
 \author{Rodrigo Gutiérrez-Cuevas~\orcidlink{0000-0002-3451-6684}}
 \address{Institut Langevin, ESPCI Paris, PSL University, CNRS, France}
-\ead{rodrigo.gutierrez-cuevas@espci.psl.eu>}
+\ead{rodrigo.gutierrez-cuevas@espci.psl.eu}
 
 \author{Yaron Bromberg~\orcidlink{0000-0003-2565-7394}}
 \address{Racah Institute of Physics, The Hebrew University of Jerusalem, Israel}
@@ -464,9 +464,6 @@ This state is achieved when the conditions of the blazed grating equation are fu
   \label{eq:blazed_eq}
 \end{equation}
 
-% Let's intereprete this qualitatively.
-% For flat grating
-% the incidence angle $\alpha$ 
 
 
 \begin{figure}
@@ -683,6 +680,18 @@ and even more so for elaborate modulation schemes~\cite{goorden2014superpixel,Gu
 \end{tldr}
 
 
+\subsection{Python code example}
+
+We provide in the paper repository~\cite{github} a Python code
+to simulate the diffraction effect of a DMD
+by computing the far field pattern for a set of realistic parameters.
+It provides a simple way to estimate the blazed number $\mu$ introduced in eq.~(\ref{eq:blazed_number})
+to assess the quality of the modulation at the desired wavelength
+for a given pixel pitch.
+We also propose an online tool accessible at
+\url{https://www.wavefrontshaping.net/post/id/49}.
+
+
 
 
 % Let's consider first a 1D toy model to have a qualitative understanding of the problem.
@@ -787,7 +796,35 @@ In scenarios where there are minimal or no aberrations,
 the intensity pattern observed would mimic the PSF of the lens,
 such as an Airy disk depicted in Fig.~\ref{fig:dmd_aberr_setup}.c.
 However, in practice, we encounter a substantially distorted pattern,
-like the one represented in Fig.~\ref{fig:dmd_aberr_setup}.d.\\
+like the one represented in Fig.~\ref{fig:dmd_aberr_setup}.d.
+A more detailed depiction of the setup for aberration characterization,
+in the context of a wavefront shaping application in complex media is presented in Fig.~\ref{fig:dmd_aberr_setup2}.a.
+In the case where the medium is a multimode fiber,
+one could leverage the reflection from the input surface
+to directly visualize the intensity pattern of the input plane,
+as shown in Fig.~\ref{fig:dmd_aberr_setup2}.b.\\
+
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.95\textwidth]{images/aberr_setup.pdf}
+  \caption{
+    \textbf{Detailed aberration characterization setup.}
+    (a) A laser beam is expanded and collimated using a telescope (lenses L and L').
+    The DMD is represented in transmission for simplicity.
+    Light reflected from the DMD is focused by a lens L$_\text{1}$
+    onto the complex medium to study, namely a scattering medium (SC)
+    or a multimode fiber (MMF).
+    A beamsplitter is used to image the far field of the DMD onto a camera
+    using a lens (L$_\text{2}$).
+    The intensity pattern, up to a homotetic transformation,
+    represent the input excitation on the mediun
+    which also correspond to the PSF of the illumination setup.
+    (b) In the case of a multimode fiber,
+    one can take advantage of the reflection of the input facet
+    to directly image the intensity pattern of the input plane.
+  }
+  \label{fig:dmd_aberr_setup2}
+\end{figure}
 
 We hypothesize that the aberrations brought about by the DMD are smooth,
 and can be depicted by a phase pattern $\phi^\text{aber}$ in the plane of the DMD array.
@@ -921,17 +958,22 @@ The experimental data, in addition to the Python code used to generate the figur
 
 \subsection{Python code example}
 
+We provide in the paper repository~\cite{github} a Python code example
+to simulate the effect of aberration on a DMD
+and then perform a sequential optimization as previously proposed
+to learn the characterize pattern.
+We make use of the !aotools! package~\cite{Townson2019aotools} for generating Zernike polynomials.
 
-In this section, we provide Python code snippets for performing aberration correction.
-We presuppose that phase modulation can be controlled using a function,
-!display_phase_mask(phase_pattern)!, to display a desired phase pattern
-with real values between $0$ and $2\pi$.
-It is important to note that phase modulation utilizing a DMD demands an appropriate setup
-and process. Although not detailed here,
-this is elaborated upon in the referenced tutorial~\cite{Gutierrez2024DMD}.
-Additionally, we assume the existence of a function, !get_camera_image()!,
-which returns the intensity pattern as measured by the camera.
-For generating Zernike polynomials, we make use of the !aotools! package~\cite{Townson2019aotools}.
+% In this section, we provide Python code snippets for performing aberration correction.
+% We presuppose that phase modulation can be controlled using a function,
+% !display_phase_mask(phase_pattern)!, to display a desired phase pattern
+% with real values between $0$ and $2\pi$.
+% It is important to note that phase modulation utilizing a DMD demands an appropriate setup
+% and process. Although not detailed here,
+% this is elaborated upon in the referenced tutorial~\cite{Gutierrez2024DMD}.
+% Additionally, we assume the existence of a function, !get_camera_image()!,
+% which returns the intensity pattern as measured by the camera.
+
 
 
 \begin{tldr}
