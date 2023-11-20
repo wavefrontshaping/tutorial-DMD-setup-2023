@@ -17,7 +17,7 @@
 
 ## [/paper](paper/): Latex sources for the article
 
-Download last PDF version of the article [here](./paper/main.tex)
+Download last PDF version of the article [here](./paper/main.pdf)
 
 ## [/python](python/): Python examples
 
