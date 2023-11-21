@@ -534,7 +534,7 @@ The 2D array can be seen as 2 orthogonal 1D gratings in the $x$ and $y$ directio
 both having the same properties.
 A more comprehensive depiction of the 2D system can be found in~\cite{Scholes2019structured}.
 In order to utilize Eq.(\ref{eq:blazed_eq}),
-one first needs projecting
+one first needs to project
 the different angles of the problem onto the incident planes
 of the two 1D gratings.
 This yields
@@ -544,7 +544,7 @@ and $\theta_B = \text{arctan}\left(\text{tan}(\theta_\text{DMD})/\sqrt{2}\right)
 where $\theta_\text{DMD}$ represents the true rotation angle of the mirrors relative to the diagonal of the pixels,
 and $\alpha'$ and $\beta'$ denote the incident and outgoing angles in the horizontal plane.
 We can quantify how close we are to the ideal case,
-i.e., when satifying the blazed equation outlined by Eq.(\ref{eq:blazed_eq}),
+i.e., when satisfying the blazed equation outlined by Eq.(\ref{eq:blazed_eq}),
 by defining a {\em blazed number} $\mu$ as introduced in~\cite{WFSnet_diffraction}:
 
 
@@ -564,9 +564,9 @@ by defining a {\em blazed number} $\mu$ as introduced in~\cite{WFSnet_diffractio
 
 with $\lfloor . \rfloor$ representing the integer part,
 and $\mod{2}$ the modulo 2 operation.
-$\mu$ is maximal and equals $1$ when the blazing equation is satisfield,
+$\mu$ is maximal and equals $1$ when the blazing equation is satisfied,
 i.e. when one order of diffraction contains most of the energy,
-and minimal when we are in the worst case scenario,
+and minimal when we are in the worst-case scenario,
 i.e. when four orders of diffraction have a significant and equal intensity.\\
 
 
@@ -606,7 +606,7 @@ close to the maximum of the envelope.
     Blazing number $\mu$ (Eq.(\ref{eq:blazed_number})) as a function of the incident angle $\alpha'$  (top)
     for a pixel pitch of $d=7.6$\textmu m (left)
     and $d=10.8$\textmu m (right).
-    Corrseponding far field diffraction pattern (bottom)
+    Corresponding far field diffraction pattern (bottom)
     for two incident angles $\alpha' = 0^\circ$ and $\alpha' = 25^\circ$.
     The yellow cross indicates the maximum of the envelope $\theta_\text{max} = 2\theta_B - \alpha$.
   }
@@ -670,7 +670,7 @@ and even more so for elaborate modulation schemes~\cite{goorden2014superpixel,Gu
 
 \begin{tldr}
   \textbf{TL;DR:}\\
-  DMDs act as a blazed gratings.
+  DMDs act as blazed gratings.
   For a given operation wavelength,
   we need to find the right pixel pitch
   to have a good modulation quality
@@ -729,17 +729,17 @@ We also propose an online tool accessible at
 \subsection{Presentation of the problem}
 
 While only capable of providing hardware binary amplitude modulation,
-DMDs serve as an potent tool for wavefront shaping and sensing.
+DMDs serve as a potent tool for wavefront shaping and sensing.
 These applications  critically require characterization and correction of aberrations
 caused by the non-flatness of the DMD surface.
 For LC-SLMs, the manufacturer typically characterizes the surface's inhomogeneities within the plane of the modulator and
 provides a spatial phase profile of the introduced aberrations based on the operational wavelength.
 It is noteworthy that when utilized for intensity modulation on a plane conjugated to the DMD plane,
-as it is the done in digital projectors,
+as it is done in digital projectors,
 the system becomes insensitive to the aberrations caused by the DMD surface.
 Consequently, these effects are commonly overlooked and rarely documented in the information provided by the manufacturers.
-They are nonetheless non-negligible, with deviations from a flat surface
-that typically spans across several wavelengths~\cite{Brown2021multicolor}.\\
+Nonetheless, they are non-negligible, with deviations from a flat surface
+that typically spans several wavelengths~\cite{Brown2021multicolor}.\\
 
 
 
@@ -747,7 +747,7 @@ that typically spans across several wavelengths~\cite{Brown2021multicolor}.\\
 
 In the literature, various methods have been proposed to characterize
 the phase pattern of the DMD aberrations in the plane of the modulator.
-Typically, this involves the use of a model for the aberrations,
+Typically, this involves using a model for the aberrations,
 tweaking the parameters to align with the measurements~\cite{Matthes2019Optical,Scholes2019structured, Brown2021multicolor}.
 An alternative approach entails direct measurement of the distorted wavefront,
 either employing a wavefront sensor such as a Shack-Hartmann~\cite{Lee2023compensation},
@@ -785,7 +785,7 @@ such as LC-SLMs or deformable mirrors. \\
 \end{figure}
 
 
-We assume that the DMD is configured to deliver phase modulation~\cite{lee1979binary,Gutierrez2024DMD}.
+We assume the DMD is configured to deliver phase modulation~\cite{lee1979binary,Gutierrez2024DMD}.
 This implies that the modulator can be divided into $N$ sections,
 which we designate as {\em macropixels},
 where the phase can be controlled independently.
@@ -817,8 +817,8 @@ as shown in Fig.~\ref{fig:dmd_aberr_setup2}.b.\\
     A beamsplitter is used to image the far field of the DMD onto a camera
     using a lens (L$_\text{2}$).
     The intensity pattern, up to a homotetic transformation,
-    represent the input excitation on the mediun
-    which also correspond to the PSF of the illumination setup.
+    represent the input excitation on the medium
+    which also corresponds to the PSF of the illumination setup.
     (b) In the case of a multimode fiber,
     one can take advantage of the reflection of the input facet
     to directly image the intensity pattern of the input plane.
@@ -920,7 +920,7 @@ The illumination is done using an expanded laser beam at 633 nm,
 corresponding to the aperture of our optical setup.
 We exclude the first three Zernike polynomials in the optimization process,
 starting from the radial degree $2$.
-Indeed, the initial one, known as the piston, has no influence on the PSF quality.
+Indeed, the initial one, known as the piston, does not influence the PSF quality.
 The subsequent ones, the tip and the tilt, cause the PSF to shift.
 Our procedure relies on optimizing the maximum of the PSF, wherever that is,
 rendering us indifferent to these two parameters.
@@ -943,7 +943,7 @@ The experimental data, in addition to the Python code used to generate the figur
   \centering
   \includegraphics[width = 0.95\textwidth]{images/Zernike_2.pdf}
   \caption{
-    \textbf{Effect of Zernike polynomials on the optimizaton of the PSF.}
+    \textbf{Effect of Zernike polynomials on the optimization of the PSF.}
     (a) Strehl ratio of the point spread function as a function of the number of Zernike polynomials used
     for the compensation of the aberrations.
     (b) Intensity profile of the point spread function for different number of Zernike polynomials
@@ -990,16 +990,16 @@ We make use of the !aotools! package~\cite{Townson2019aotools} for generating Ze
 
 \section{Mechanical and thermal stability}
 
-Unlike the original purpose of the DMD, i.e. ampltiude modulation for video projectors,
+Unlike the original purpose of the DMD, i.e. amplitude modulation for video projectors,
 typical scientific applications require a high stability of the generated wavefront.
 This is particularly true for applications in complex media,
 such as strongly scattering media or multimode fiber,
 where a small change in the phase front can lead to a large change in the output intensity profile.
-While LC-SLMs design has been improved and adapted to scientific applicaitons
+While LC-SLMs design has been improved and adapted to scientific applications
 over the last decades,
-DMD are still a relatively new tools for wavefront shaping and sensing
-and are prone to instabilities that need to be adressed by the user.
-In this section we present the effect of mechanical and thermal instabilities
+DMD are still relatively new tools for wavefront shaping and sensing
+and are prone to instabilities that need to be addressed by the user.
+In this section, we present the effect of mechanical and thermal instabilities
 and how to limit their impact on the wavefront quality with simple solutions.\\
 
 
@@ -1056,7 +1056,7 @@ In off-axis holography,
 the local transverse displacement of the fringes
 is directly proportional to the phase,
 with a displacement equivalent to the period of the fringes corresponding to $2\pi$~\cite{Cuche2000spatial}.
-This permits us to estimate the fluctuation in phase over time at a given postition of the output plane.
+This permits us to estimate the fluctuation in phase over time at a given position of the output plane.
 As illustrated in Fig.~\ref{fig:phase_vibrations} (depicted by the red curve),
 the phase varies rapidly over time,
 a fluctuation attributed to the rapid mechanical vibrations transmitted by the board.\\
@@ -1079,7 +1079,7 @@ a fluctuation attributed to the rapid mechanical vibrations transmitted by the b
 \end{figure}
 
 
-An simple yet effective solution consists in dampening the vibrations
+A simple yet effective solution consists in dampening the vibrations
 at the flat cable's level by clamping it with a soft material,
 as depicted in Fig.~\ref{fig:dumping}.
 This can be achieved using commonly available materials.
@@ -1115,11 +1115,11 @@ as demonstrated in Fig.~\ref{fig:phase_vibrations} (blue curve).\\
 Electronics utilized to control the DMD chip experience thermal variations during operation.
 The dynamics of this effect are dependent on the frame rate.
 Specifically, the chips heats up more quickly when increasing the frame rate.
-The increase of temperature can reach more that $15$ degrees Celsius
+The increase of temperature can reach more than $15$ degrees Celsius
 when running a sequence at maximum speed (20-30 kHz)~\cite{Rudolf2021thermal}.
 Notably, this effect is less pronounced when the device is on but not running a sequence.
 Temperature fluctuations can cause deformations on the chip's surface
-and can modificy the phase response of the glass protective window.
+and can modify the phase response of the glass protective window.
 This creates low order aberrations, which degrade the quality of the wavefront.
 While this issue is comparatively less critical than static aberrations and mechanical instabilities
 previously detailed,
@@ -1134,12 +1134,12 @@ to assess the extent to which it impacts the results.
 Although the exact effect on the wavefront distortion can be directly quantified~\cite{Rudolf2021thermal},
 it is typically more convenient
 to directly measure the effect on the studied system's response.
-To do so, we use a setup to the one presented in the previous section
+To do so, we use a setup similar to the one presented in the previous section
 and depicted in Fig.~\ref{fig:MMF_ref}.
 We can then estimate the field or intensity decorrelation over time.
-We present here results with intesity correlation, as it does not require a reference arm.
+We present here results with intensity correlation, as it does not require a reference arm.
 The measured output pattern typically take the form of a seemingly random speckle pattern,
-that is sensitive to minute changes of the input wavefront.
+that is sensitive to minute changes in the input wavefront.
 The correlation estimation is obtained by comparing the output intensity pattern
 $I(\vec{r}, t)$ at a given time $t$
 to the one at $t=0$.
@@ -1208,7 +1208,7 @@ the correlation is now stable.\\
 \end{figure}
 
 The more efficient way to counteract this effect is to use a
-close-loop system to stabilize the temperature of the DMD chip.
+closed-loop system to stabilize the temperature of the DMD chip.
 This can be achieved by using a thermoelectric cooler
 as demonstrated in Ref.~\cite{Rudolf2021thermal}
 and depicted in Fig.~\ref{fig:decorr_T}.
@@ -1230,9 +1230,9 @@ and depicted in Fig.~\ref{fig:decorr_T}.
 \begin{tldr}
   \textbf{TL;DR:}\\
   DMDs take about an hour to thermaly stabilize when a sequence is running.
-  It can conuntered by using a thermoelectric cooler
+  It can countered by using a thermoelectric cooler
   and a temperature sensor.
-  It can also be simply mitigated by letting a sequence running for few hours
+  It can also be simply mitigated by letting a sequence run for few hours
   before starting the experiment.
 \end{tldr}
 
