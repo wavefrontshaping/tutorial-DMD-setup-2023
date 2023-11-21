@@ -287,7 +287,7 @@ Lastly, we discuss how the thermalization of the DMD chip can potentially result
 
 \section{Choosing the right DMD: Diffraction effects}
 
-\subsection{1D model}
+\subsection{A 1D model}
 
 A significant distinction between liquid crystal modulators and DMDs
 lies in the geometry of the pixel surface.
@@ -501,7 +501,7 @@ This state is achieved when the conditions of the blazed grating equation are fu
 %   R_\text{blazed}(x) \propto \left[\Pi\left(x/d'\right) \times e^{j\frac{2\pi}{\lambda}\theta_B}\right]\otimes_x \sum_k \delta(x-k d) 
 % \end{equation}
 
-\subsection{2D case}
+\subsection{Tje 2D case}
 
 To analyze more precisely the effect of diffraction in a DMD,
 one needs to consider the 2D surface of the modulator.
@@ -674,9 +674,39 @@ and even more so for elaborate modulation schemes~\cite{goorden2014superpixel,Gu
 
 \subsection{Dispersion}
 
-DMD are based on small mirror whose response is little dependent on the wavelength,
-which is convenient for broadband applications requiring amplitude modulation.
-However, in
+
+DMDs are composed of metallic small mirrors,
+the response of which is minimally affected by wavelength changes.
+This is particularly advantageous for broadband applications requiring amplitude modulation
+and operating on a plane conjugated to the DMD's surface.
+This is the case for the originally intended application of video projection.
+However, for wavefront-shaping applications,
+it is typically required to select a specific diffraction order
+to acheive phase or complex modulation~\cite{lee1979binary,Gutierrez2024DMD}.
+Under such circumstances,
+the wavelength-dependency of the diffraction effect becomes important.
+The blazed number, denoted by $\mu$ (according to Eq.(\ref{eq:blazed_number})),
+scales inversely with the wavelength.
+Fig.~\ref{fig:dispersion} shows the blazed number $\mu$
+as a function of the wavelength for two pixel pitches $d=7.6$\textmu m and $d=10.8$\textmu m,
+with an incident angle of $\alpha' = 20^\circ$.
+Within the visible spectrum, $\mu$ fluctuates between $0$ to $1$ over a typical range of roughly 100 nm.\\
+
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = 0.75\textwidth]{images/blazing_number_VS_wavelength.pdf}
+  \caption{
+    \textbf{Dispersion of the diffraction effect.}
+    Blazing number $\mu$ (Eq.(\ref{eq:blazed_number})) as a function of the incident wavelength
+    for an incident angle $\alpha' = 20^\circ$
+    and a pixel pitch of $d=7.6$\textmu m (blue curve)
+    and $d=10.8$\textmu m (dashed black curve).
+  }
+  \label{fig:dispersion}
+\end{figure}
+
 
 
 \begin{tldr}
