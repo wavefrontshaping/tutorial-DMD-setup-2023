@@ -211,7 +211,7 @@ and its original design intentions.
 Investigated and developed by Texas Instruments since the 1980s,
 DMDs gained prominence in the 1990s for video projection applications since the 1990s
 under the commercial name of Digital Light Processing (DLP)~\cite{hornbeck1997digital,Dudley2003emerging}.
-The technology enables high-resolution, high-speed, and high-contrast-ratio modulation of light.\\
+The technology enables high-resolution, high-speed, and high-contrast-ratio modulation of light.
 DMDs operate by toggling the state of small mirrors between two distinct angles, denoted as $\pm \theta_\text{DMD}$.
 The device is originally engineered for amplitude modulation in video projection applications.
 In this configuration, one mirror angle directs light into the projection lens,
@@ -319,8 +319,12 @@ $
   \text{sin}(\theta_p) = p\lambda/d = p \, \text{sin}(\theta_D),
 $
 where $\lambda$ is the wavelength of the light,
-and $\theta_D$ is the angle of the first-order diffraction.
-The intensity of the individual diffraction orders is influenced by both the size and the response of a single pixel.
+$\theta_D$ is the angle of the first-order diffraction,
+and $p$ is an integer value denoting the orders of diffraction.
+The intensity of the individual diffraction orders is influenced by
+the response of a single pixel,
+constituting the unit cell of the grating,
+and that is governed by $d$, $d'$, and its rotation angle in the case of a DMD.
 Importantly, we can decouple the effects of the grating's periodicity,
 which influences the angles of the diffraction orders,
 from the effects of the response of a single pixel,
@@ -343,7 +347,7 @@ which shapes the envelope of the angular response.\\
 
 
 For a case of normal incidence with an LC-SLM (Liquid Crystal Spatial Light Modulator),
-we can assume that the response of a single pixel is uniform its surface.
+we can assume that the response of a single pixel is uniform over its surface.
 Similarly, in the scenario of a blazed grating,
 such as a DMD, a linear phase slope is present on each pixel.
 This is due to the tilt angle $\theta_B$ of the mirrors.
@@ -352,103 +356,31 @@ a global phase slope is introduced.
 This results in a trivial shift of the angular diffraction pattern by an angle $\alpha$.
 In essence, the incident angle $\alpha$ serves to shift the entire angular diffraction pattern
 relative to the case of normal incidence,
-while the blazed angle $\theta_B$—the tilt angle of the mirror in the DMD—
+while the blazed angle $\theta_B$
+—the tilt angle of the mirror in the DMD projected onto the axis we consider—
 only shifts the envelope by an angle of $2\theta_B$.
 Whenever the fill factor approaches 100\%,
 i.e. when $d \approx d'$,
 the envelope for a flat grating achieves its maximum at $\theta_0 = -\alpha$;
 this corresponds to the angle of the zeroth-order diffraction,
-which nears zero for all other orders.
+and the intensity nears zero for all other orders.
 In these specific conditions, a singular diffraction order is visually perceived, corresponding to the optimum scenario.
 The addition of a blazed angle $\theta_B$ results in both
 a shift in the envelope and in the position of its maximum,
 now indicated by $\theta_0 = 2\theta_B - \alpha$.
 In the general case,
 this position may not align with a diffraction order anymore~\cite{Park2015properties}.
-
-\begin{optional}
-  Assuming the effect of the device's finite size and illumination to be negligible,
-  and situating ourselves within the context of the small-angle approximation,
-  we can represent the field reflected from the device
-  under the influence of plane wave illumination
-  across two systems as follows:
+We provide in Appendix A.  a 1D computation of this effect.
+A more accurate computation of the far field can be found  in ~\cite{Wang2023diffraction}.\\
 
 
-  \begin{equation}
-    \begin{aligned}
-      R_\text{flat}(x)   & \propto \left[\Pi\left(x/d'\right) \otimes_x \sum_k \delta(x-k d)\right]e^{-j\frac{2\pi}{\lambda}\text{sin}(\alpha) x} \\
-      R_\text{blazed}(x) & \propto
-      \underbrace{
-        \left(
-        \underbrace{\Pi\left(x/d'\right)}_\text{pixel size}
-        \times
-      \underbrace{e^{j\frac{2\pi}{\lambda}2\text{sin}(\theta_B-\alpha) x}}_{\substack{\text{blazed angle}                                         \\ \text{+ angle of incidence}}}
-        %\text{blazed angle + angle of incidence}
-        \right)
-      }_\text{pixel response}
-      \otimes_x
-      \left[
-        \underbrace{\sum_k \delta(x-k d) }_\text{periodicitiy}
-        .
-        \underbrace{
-          e^{-j\frac{2\pi}{\lambda}\text{sin}(\alpha) kd}
-        }_\text{angle of incidence}
-        \right]
-      \, ,
-    \end{aligned}
-    \label{eq:grating_response}
-  \end{equation}
-
-  with $\Pi(x)$ the rectangular function,
-  representing the finite size of the pixel,
-  defined as:
-
-  \begin{equation}
-    \Pi(x) =
-    \begin{cases}
-      1, & \text{if } -\frac{1}{2} < x < \frac{1}{2}, \\
-      0, & \text{otherwise}.
-    \end{cases}
-  \end{equation}
-
-  The intensity as a function of the angle in the far-field
-  is given, up to a homotetic transformation,
-  by the absolute value squared of
-
-  The Fourier transform of Eq.~\ref{eq:grating_response} can be written as:
-
-
-
-
-
-
-  \begin{equation}
-    \begin{aligned}
-      I_\text{flat}(\theta) \propto
-      \sum_p \delta(\text{sin}(\theta)+\text{sin}(\alpha))
-      \times
-      \text{sinc}^2\left( \left[\text{sin}(\theta)+\text{sin}(\alpha)\right] \frac{\lambda}{d'}\right) \\
-      I_\text{blazed}(\theta) \propto
-      \underbrace{
-        \sum_p \delta(\text{sin}(\theta)+\text{sin}(\alpha)-p\,\theta_D)
-      }_\text{orders of diffraction}
-      \times
-      \underbrace{
-        \text{sinc}^2\left( \left[\text{sin}(\theta)+\text{sin}(\alpha)\right] \frac{\lambda}{d'}\right)
-      }_\text{envelope} \, .
-    \end{aligned}
-  \end{equation}
-
-\end{optional}
-A more accurate computation of the far field can be found  in ~\cite{Wang2023diffraction}.
-We observe that the envelope (right hand term) is maximal for $\text{sin}(\theta_{max}) = \text{sin}(\alpha-2\theta_B)$
-while the effect of the periodicity (left hand term) is maximal for $\text{sin}(\theta_p)+ \text{sin}(\alpha) = p \lambda/d$.
-with $p$ an integer value.
 We represent in Fig.~\ref{fig:gratings} the angular response of a flat grating and a blazed grating
 for a 1D filling fraction of 95\% (correponding to a 2D filling fraction of $\approx 90$\%).
-For a flat grating, only the zero-th order has a significant and comparable intensity.
-For a blazed grating, in this example close to the worst case scenario,
-two diffraction orders have a significant intensity,
+For a flat grating, the zero-th order contains most of the intensity,
+the other orders being negligible in comparison.
+For the blazed grating example shown,
+we are in a situation close to the worst case scenario:
+Two diffraction orders have a significant and comparable intensity,
 and other orders also have a non-negligible contributions.
 In the optimal scenario, where the peak of the envelope corresponds to a diffraction order,
 it results in a single diffraction order carrying the majority of the energy.
@@ -458,10 +390,12 @@ This state is achieved when the conditions of the blazed grating equation are fu
 
 \begin{equation}
   \text{sin}(2\theta_B-\alpha) + \text{sin}(\alpha)
-  = 2 \,\text{sin}(\theta_B)  \,\text{sin}(\theta_B-\alpha)
+  = 2 \,\text{sin}(\theta_B)  \,\text{cos}(\theta_B-\alpha)
   = p\frac{\lambda}{d} \, .
   \label{eq:blazed_eq}
 \end{equation}
+
+\noindent We note that the incident angle $\alpha$ olso affects the diffraction efficiency.
 
 
 
@@ -492,6 +426,7 @@ This state is achieved when the conditions of the blazed grating equation are fu
 
 
 
+
 % \begin{equation}
 %   R_\text{flat}(x) \propto \Pi\left(x/d'\right) \otimes_x \sum_k \delta(x-k d) 
 % \end{equation}
@@ -501,7 +436,7 @@ This state is achieved when the conditions of the blazed grating equation are fu
 %   R_\text{blazed}(x) \propto \left[\Pi\left(x/d'\right) \times e^{j\frac{2\pi}{\lambda}\theta_B}\right]\otimes_x \sum_k \delta(x-k d) 
 % \end{equation}
 
-\subsection{Tje 2D case}
+\subsection{The 2D case}
 
 To analyze more precisely the effect of diffraction in a DMD,
 one needs to consider the 2D surface of the modulator.
@@ -515,11 +450,12 @@ aligns with the pixel diagonals,
 resulting in a rotation by 45 degrees with respect to the $x$ and $y$ axes.
 For the convenience of alignment and manipulation of the optical setup,
 it is preferable to work with the incident and outgoing beams
-which have the optical axis contained in the horizontal plane.
+which have the optical axis contained in the horizontal plane,
+i.e. a plane parallel to the table surface.
 A straightforward and prevalent solution is to rotate the chip by 45 degrees
 relative to the horizontal plane,
 which aligns the pixel’s axis of rotation to be vertical.
-This configuration is depicted in Fig.~\ref{fig:2d_geom}b.
+This configuration is depicted in Fig.~\ref{fig:2d_geom}b.\\
 
 
 
@@ -529,6 +465,8 @@ This configuration is depicted in Fig.~\ref{fig:2d_geom}b.
   \caption{
     \textbf{2D grating geometry.}
     (a) Schematic representation of the geometry of the DMD.
+    The incident  and reflection angles $\alpha'$ and $\theta_0'$ are situated
+    within the horizontally plane, illustrated in yellow.
     (b) Photograph of the DMD chip oriented so that the rotation axis of the pixels
     is aligned vertically.
   }
@@ -544,10 +482,10 @@ the different angles of the problem onto the incident planes
 of the two 1D gratings.
 This yields
 $\alpha = \text{arctan}\left(\text{tan}(\alpha')/\sqrt{2}\right)$,
-$\beta = \text{arctan}\left(\text{tan}(\beta')/\sqrt{2}\right)$,
+$\theta = \text{arctan}\left(\text{tan}(\theta')/\sqrt{2}\right)$,
 and $\theta_B = \text{arctan}\left(\text{tan}(\theta_\text{DMD})/\sqrt{2}\right)$,
 where $\theta_\text{DMD}$ represents the true rotation angle of the mirrors relative to the diagonal of the pixels,
-and $\alpha'$ and $\beta'$ denote the incident and outgoing angles in the horizontal plane.
+and $\alpha'$ and $\theta'$ denote the incident and outgoing angles in the horizontal plane.
 We can quantify how close we are to the ideal case,
 i.e., when satisfying the blazed equation outlined by Eq.(\ref{eq:blazed_eq}),
 by defining a {\em blazed number} $\mu$ as introduced in~\cite{WFSnet_diffraction}:
@@ -557,9 +495,9 @@ by defining a {\em blazed number} $\mu$ as introduced in~\cite{WFSnet_diffractio
 \begin{equation}
   \mu =
   \left|
-  \lfloor 2 \frac{d}{\lambda}
+  \lfloor 4 \frac{d}{\lambda}
   \left[
-    \text{sin}(\alpha)  +\text{sin}(\beta)
+    \text{sin}(\theta_B)\text{cos}(\theta_B-\alpha)
     \right]
   \rfloor
   \mod{2} -1
@@ -567,7 +505,7 @@ by defining a {\em blazed number} $\mu$ as introduced in~\cite{WFSnet_diffractio
   \label{eq:blazed_number}
 \end{equation}
 
-with $\lfloor . \rfloor$ representing the integer part,
+with $\lfloor . \rfloor$ representing the floor function,
 and $\mod{2}$ the modulo 2 operation.
 $\mu$ is maximal and equals $1$ when the blazing equation is satisfied,
 i.e. when one order of diffraction contains most of the energy,
@@ -581,10 +519,11 @@ with two pixel pitches of
 $d=7.6$\textmu m and $d=10.8$\textmu m,
 under a coherent excitation at $\lambda=633$nm.
 Fig.~\ref{fig:mu76} shows the estimated blazed number $\mu$
-as a function of the angle of incidence $\alpha'$,
+as a function of the angle of incidence $\alpha'$ in the horizontal plane,
 along with the far field diffraction pattern for two distinct incident angles.
 It should be noted that the efficiency of diffraction can be altered by adjusting
-the angle of incidence, yet its impact is relatively confined
+the angle of incidence.
+However, its impact is relatively confined
 within an acceptable angular range that aligns with experimental limitations
 (i.e. for angles far from $\pm 90^\circ$).
 Far field patterns are centered around the maximum of the envelope
@@ -637,6 +576,12 @@ as demonstrated in the 1D case in Fig~\ref{fig:gratings}.
 One adverse implication is that pixels in the {\em off} state
 may contain orders of diffraction that are not blocked by the pinhole,
 and therefore, will contribute as an interference to the modulated wavefront.
+We show in Fig.~\ref{fig:xtalk} the normalized amplitude of the diffraction patterns
+corresponding to all the pixels in the {\em on} (blue curve) and {\em off} (orange curve) states
+for the same experimental conditions but with two different pixel pitches
+leading to situations close to the worst (a) and best (b) case scenarios.
+We observe the presence of a non-negligible contribution of the {\em off} state
+at the main diffraction order of the {\em on} state in the first case.
 While this contribution might appear weak,
 it does affect the quality of the modulation
 since the modulation scheme typically necessitates about half the pixels
@@ -887,7 +832,7 @@ We create this pattern in the basis of Zernike polynomials
   \phi_i^\text{corr} = \sum_{n=0}^N a'_n Z_n(r,\theta) \, ,
 \end{equation}
 
-the best correction if obtained for
+\noindent the best correction is obtained for
 
 
 \begin{equation}
@@ -1277,19 +1222,103 @@ and depicted in Fig.~\ref{fig:decorr_T}.
   before starting the experiment.
 \end{tldr}
 
-% \section{Control Vialux DMDs with Python}
+\section{Conclusion}
+DMDs are powerful tools for wavefront shaping applications in complex media
+due to their high pixel count, relative low cost, and high refresh rate.
+However, mostly due to their original purpose of amplitude modulation
+of incoherent light for video projection,
+several effects need to be taken into account when using DMDs for wavefront shaping.
+First, the choice of its pixel pitch must be made carefully
+by considering the wavelength of operation
+to ensure a good modulation quality and diffraction efficiency.
+Furhtermore, the DMD surface is not flat and can introduce aberrations
+which can be corrected using a simple optimization procedure.
+Finally, the DMD is sensitive to mechanical vibrations and thermal variations,
+which can be mitigated ensuring a good mechanical and thermal isolation of the device.
 
-% \cite{hofling2004alp}
+% \section{Acknowledgments}
 
-% \cite{popoff2016alp4lib}
 
-\section{Acknowledgments}
-Authors wishing to acknowledge assistance or encouragement from
-colleagues, special work by technical staff or financial support from
-organizations should do so in an unnumbered `Acknowledgments' section
-immediately following the last numbered section of the paper. In \verb"iopart.cls" the
-command \verb"\ack" sets the acknowledgments heading as an unnumbered
-section.
+\section*{Appendix A: 1D calculation of the DMD diffraction effect}
+\label{app:1D}
+
+
+Assuming the effect of the device's finite size and illumination to be negligible,
+and situating ourselves within the context of the small-angle approximation,
+we can represent the field reflected from the device
+under the influence of plane wave illumination
+across two systems as follows:
+
+
+\begin{equation}
+  \begin{aligned}
+    R_\text{flat}(x)   & \propto \left[\Pi\left(x/d'\right) \otimes_x \sum_k \delta(x-k d)\right]e^{-j\frac{2\pi}{\lambda}\text{sin}(\alpha) x} \\
+    R_\text{blazed}(x) & \propto
+    \underbrace{
+      \left(
+      \underbrace{\Pi\left(x/d'\right)}_\text{pixel size}
+      \times
+    \underbrace{e^{j\frac{2\pi}{\lambda}2\text{sin}(\theta_B-\alpha) x}}_{\substack{\text{blazed angle}                                         \\ \text{+ angle of incidence}}}
+      \right)
+    }_\text{pixel response}
+    \otimes_x
+    \left[
+      \underbrace{\sum_k \delta(x-k d) }_\text{periodicitiy}
+      .
+      \underbrace{
+        e^{-j\frac{2\pi}{\lambda}\text{sin}(\alpha) kd}
+      }_\text{angle of incidence}
+      \right]
+    \, ,
+  \end{aligned}
+  \label{eq:grating_response}
+\end{equation}
+
+with $\Pi(x)$ the rectangular function,
+representing the finite size of the pixel,
+defined as:
+
+\begin{equation}
+  \Pi(x) =
+  \begin{cases}
+    1, & \text{if } -\frac{1}{2} < x < \frac{1}{2}, \\
+    0, & \text{otherwise}.
+  \end{cases}
+\end{equation}
+
+The intensity as a function of the angle in the far-field
+is given, up to a homotetic transformation,
+by the absolute value squared of
+
+The Fourier transform of Eq.~\ref{eq:grating_response} can be written as:
+
+
+
+
+
+
+\begin{equation}
+  \begin{aligned}
+    I_\text{flat}(\theta) \propto
+    \sum_p \delta(\text{sin}(\theta)+\text{sin}(\alpha))
+    \times
+    \text{sinc}^2\left( \left[\text{sin}(\theta)+\text{sin}(\alpha)\right] \frac{\lambda}{d'}\right) \\
+    I_\text{blazed}(\theta) \propto
+    \underbrace{
+      \sum_p \delta(\text{sin}(\theta)+\text{sin}(\alpha)-p\,\theta_D)
+    }_\text{orders of diffraction}
+    \times
+    \underbrace{
+      \text{sinc}^2\left( \left[\text{sin}(\theta)+\text{sin}(\alpha)\right] \frac{\lambda}{d'}\right)
+    }_\text{envelope} \, .
+  \end{aligned}
+\end{equation}
+
+
+We observe that the envelope (right hand term) is maximal for $\text{sin}(\theta_{max}) = \text{sin}(\alpha-2\theta_B)$
+while the effect of the periodicity (left hand term) is maximal for $\text{sin}(\theta_p)+ \text{sin}(\alpha) = p \lambda/d$,
+representing the orders of diffraction.
+
 
 \section{Bibliography}
 
