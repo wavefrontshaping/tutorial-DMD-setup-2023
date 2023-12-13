@@ -9,10 +9,11 @@
       title={{A practical guide to Digital Micro-mirror Devices (DMDs) for wavefront shaping}},
       author={Popoff, Sébastien M. and Matthès, Maxime W. and Bromberg, Yaron and Gutiérrez-Cuevas, Rodrigo},
       year={2023},
-      eprint={XXXX.YYYY},
+      eprint={2311.17496},
       archivePrefix={arXiv},
-      primaryClass={physics.optics}
-}
+      primaryClass={physics.optics},
+      doi={10.48550/arXiv.2311.17496},
+      url={https://doi.org/10.48550/arXiv.2311.17496}}
 ```
 
 ## Supplementary animation:
