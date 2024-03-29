@@ -1,4 +1,4 @@
-# [_A practical guide to Digital Micro-mirror Devices (DMDs) for wavefront shaping_](https://arxiv.org/abs/XXXX)
+# [_A practical guide to Digital Micro-mirror Devices (DMDs) for wavefront shaping_](https://arxiv.org/abs/2312.01352)
 
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.48550/arXiv.2310.19337.svg)](https://doi.org/10.48550/arXiv.2310.19337) -->
 
