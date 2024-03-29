@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg:svg
+   viewBox="0 0 21.333336 21.333334"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="gscholar.svg"
+   width="21.333336"
+   height="21.333334"
+   inkscape:version="1.3 (1:1.3+202307231459+0e150ed6c4)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <svg:defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.32117468"
+     inkscape:cx="-66.941765"
+     inkscape:cy="857.78867"
+     inkscape:window-width="1504"
+     inkscape:window-height="1289"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3" />
+  <svg:g
+     id="g3"
+     transform="scale(0.04166667)">
+    <svg:path
+       fill="#4285f4"
+       d="M 256,411.12 0,202.667 256,0 Z"
+       id="path1" />
+    <svg:path
+       fill="#356ac3"
+       d="M 256,411.12 512,202.667 256,0 Z"
+       id="path2" />
+    <svg:circle
+       fill="#a0c3ff"
+       cx="256"
+       cy="362.66699"
+       r="149.33299"
+       id="circle2" />
+    <svg:path
+       fill="#76a7fa"
+       d="m 121.037,298.667 c 23.968,-50.453 75.392,-85.334 134.963,-85.334 59.571,0 110.995,34.881 134.963,85.334 z"
+       id="path3" />
+  </svg:g>
+  <script />
+</svg:svg>
