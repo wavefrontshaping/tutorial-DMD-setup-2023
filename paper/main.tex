@@ -53,6 +53,7 @@
 
 \usepackage{amsmath}
 \usepackage{listings}
+\usepackage{xcolor}
 
 \usepackage[most, breakable]{tcolorbox}
 \usepackage{hyperref}
@@ -69,6 +70,7 @@
 
 \definecolor{bg}{RGB}{255,249,227}
 \definecolor{light_orange}{RGB}{255,193,134}
+\newcommand{\red}[1]{#1}
 
 \newtcolorbox{optional}[1][]{%
 enhanced jigsaw,
@@ -197,7 +199,7 @@ which allow for the control of light phase across typically more than a million 
 have emerged as powerful tools for wavefront shaping in complex media
 since the seminal work of A. Most and I. Vellekoop in the mid-2000s~\cite{Vellekoop2007focusing}.
 Nonetheless, LC-SLMs are hampered by their slow response time,
-permitting only a modulation speed ranging from a few Hz to about 100 Hz.\\
+permitting only a modulation speed ranging from a few Hz to \red{a few hundred} Hz.\\
 
 Digital Micromirror Devices (DMDs) have emerged as a technology bridging the gap
 between these two types of systems;
@@ -253,7 +255,11 @@ For the remainder of this paper, it will be assumed that the DMD is used for com
 
 While other articles exist describing the various aspects of DMDs~\cite{Park2015properties, Scholes2019structured, Cox2021converting, Wang2023diffraction},
 this tutorial aims to provide a guide for easily setting up a DMD for wavefront shaping applications in complex media.
-In particular, we provide characterization and validation procedures that requires minimal changes compared to typical wavefront shaping setups.\\
+In particular, we provide characterization and validation procedures that require minimal changes compared to typical wavefront shaping setups. 
+\red{
+More specifically, we place ourselves in a standard experiment where the goal is to shape the complex wavefront impinging on a complex medium and control or measure its output response. 
+This is typically the case for a focusing experiment~\cite{Vellekoop2007focusing} or for measuring the transmission matrix of a complex medium~\cite{Popoff2010Measuring}.
+}\\
 We first introduce the diffraction properties of a DMD
 and elaborate on how these could impact the system's efficiency.
 We also furnish a straightforward criterion for selecting the appropriate DMD parameters for a specified excitation wavelength.
@@ -530,13 +536,15 @@ $d=7.6$\textmu m and $d=10.8$\textmu m,
 under a coherent excitation at $\lambda=633$nm.
 Fig.~\ref{fig:mu76} shows the estimated blazed number $\mu$
 as a function of the angle of incidence $\alpha'$ in the horizontal plane,
-along with the far field diffraction pattern for two distinct incident angles.
+along with the far field diffraction pattern for two distinct incident angles. 
+Fig.~\ref{fig:mu_2d} shows the blazed number as a function of both the incident angle 
+and the wavelength for pixel pitches of $d=7.6$\textmu m and $d=10.8$\textmu m.
 It should be noted that the efficiency of diffraction can be altered by adjusting
 the angle of incidence.
 However, its impact is relatively confined
 within an acceptable angular range that aligns with experimental limitations
 (i.e. for angles far from $\pm 90^\circ$).
-Far field patterns are centered around the maximum of the envelope
+Far-field patterns are centered around the maximum of the envelope
 $\theta_\text{max} = 2\theta_B - \alpha$
 (marked by a yellow cross).
 We see that for small values of $\alpha$,
@@ -546,25 +554,38 @@ It corresponds in the far field to having one bright order of diffraction
 close to the maximum of the envelope.
 
 \begin{figure}
-  \centering
-  \begin{subfigure}{0.49\textwidth}
-    \centering
-    \includegraphics[width = \textwidth]{images/mu_76.pdf}
-  \end{subfigure}
-  \begin{subfigure}{0.49\textwidth}
-    \centering
-    \includegraphics[width = \textwidth]{images/mu_108.pdf}
-  \end{subfigure}
+  % \centering
+  % \begin{subfigure}{0.49\textwidth}
+  %   \centering
+  %   \includegraphics[width = \textwidth]{images/mu_76.pdf}
+  % \end{subfigure}
+  % \begin{subfigure}{0.49\textwidth}
+  %   \centering
+  %   \includegraphics[width = \textwidth]{images/mu_108.pdf}
+  % \end{subfigure}
+  \includegraphics[width = \textwidth]{images/mu_1d.pdf}
   \caption{
-    \textbf{Blazed number and far field diffraction patterns, extreme cases.}
+    \textbf{Blazed number and far-field diffraction patterns, extreme cases.}
     Blazing number $\mu$ (Eq.(\ref{eq:blazed_number})) as a function of the incident angle $\alpha'$  (top)
-    for a pixel pitch of $d=7.6$\textmu m (left)
-    and $d=10.8$\textmu m (right).
-    Corresponding far field diffraction pattern (bottom)
+    for a pixel pitch of $d=7.6$\textmu m (a.)
+    and $d=10.8$\textmu m (b.).
+    Corresponding far-field diffraction pattern (bottom)
     for two incident angles $\alpha' = 0^\circ$ and $\alpha' = 25^\circ$.
     The yellow cross indicates the maximum of the envelope $\theta_\text{max} = 2\theta_B - \alpha$.
   }
   \label{fig:mu76}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width = \textwidth]{images/mu_2d.pdf}
+  \caption{
+    \textbf{Blazed number as a function of the wavelength and the incident angle.
+    }
+    Color map representation of the blazed number for a pixel pitch of $d=7.6$\textmu m (a.)
+    and $d=10.8$\textmu m (b.).
+  }
+  \label{fig:mu_2d}
 \end{figure}
 
 \subsection{Modulation cross-talk}
@@ -798,7 +819,11 @@ in the context of a wavefront shaping application in complex media is presented 
 In the case where the medium is a multimode fiber,
 one could leverage the reflection from the input surface
 to directly visualize the intensity pattern of the input plane,
-as shown in Fig.~\ref{fig:dmd_aberr_setup2}.b.\\
+as shown in Fig.~\ref{fig:dmd_aberr_setup2}.b. 
+\red{
+Note that for the later approach to be reliable, it is necessary to properly align the system to ensure that the plane of the input facet corresponds exactly to the Fourier plane of the DMD, and that the input facet plane is conjugated with the camera plane.
+}
+\\
 
 \begin{figure}
   \centering
@@ -854,7 +879,10 @@ We create this pattern in the basis of Zernike polynomials
   \includegraphics[width = 0.95\textwidth]{images/Zernike_1.pdf}
   \caption{
     \textbf{Correction phase map.}
-    (a) Schematic representation of the function we want to optimize.
+    (a) Schematic representation of the function we want to optimize, 
+    i.e. we optimize the ratio between 
+    the sum of the intensity of the measured image in a diffraction-limited disk
+    and the sum of the intensity elsewhere.    
     We both want to maximize the intensity of the main lobe of the point spread function
     and minimize its side lobes.
     (b) Values of the experimentally obtained optimal coefficients in the Zernike polynomials basis.
@@ -1122,6 +1150,20 @@ previously detailed,
 it nonetheless has a substantial impact on the complex medium's response
 when a DMD is employed to modulate the input wavefront.\\
 
+\red{Empirically, we observe deformations of the pattern 
+at the output of the medium under study when the DMD chip heats up after switching on the device. 
+These deformations originate from a temperature-dependent perturbation of the modulated field. 
+We attribute this effect to the transparent part of the DMD 
+(i.e., the protection glass window) 
+having a refractive index that significantly changes with temperature. 
+Once the device reaches thermal equilibrium, this effect stabilizes, 
+allowing us to find the appropriate correction mask as described in Section 3 of the manuscript. 
+It is important to stress that it is the thermal fluctuations that impact the stability of the modulation, 
+not the temperature itself, 
+as we obtain stable experimental conditions even when equilibrium is reached 
+at the maximal operating temperature of the modulator without thermal cooling.\\}
+
+
 
 
 Before initiating a wavefront shaping experiment,
@@ -1129,7 +1171,8 @@ it is important to characterize the influence of temperature
 to assess the extent to which it impacts the results.
 Although the exact effect on the wavefront distortion can be directly quantified~\cite{Rudolf2021thermal},
 it is typically more convenient
-to directly measure the effect on the studied system's response.
+to directly measure the effect on the studied system's response. 
+\red{Directly using the output of the complex medium under study presents multiple advantages. First, it allows the setup to remain unchanged and facilitates easy re-characterization of the effect if some parameters change. Additionally, complex media tend to be very sensitive to input phase changes, with the sensitivity varying from one medium to another. By using the complex medium itself, we obtain the exact sensitivity needed for the current setup. Therefore, regardless of the qualitative changes in the input field, stability in the output indicates that the setup is adequate for studying the medium in question.}
 To do so, we use a setup similar to the one presented in the previous section
 and depicted in Fig.~\ref{fig:MMF_ref}.
 We can then estimate the field or intensity decorrelation over time.
@@ -1225,7 +1268,7 @@ and depicted in Fig.~\ref{fig:decorr_T}.
 
 \begin{tldr}
   \textbf{TL;DR:}\\
-  DMDs take about an hour to thermaly stabilize when a sequence is running.
+  DMDs take about an hour to thermally stabilize when a sequence is running.
   It can countered by using a thermoelectric cooler
   and a temperature sensor.
   It can also be simply mitigated by letting a sequence run for few hours
