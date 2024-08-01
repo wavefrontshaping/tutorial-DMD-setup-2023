@@ -70,6 +70,7 @@
 
 \definecolor{bg}{RGB}{255,249,227}
 \definecolor{light_orange}{RGB}{255,193,134}
+% \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\red}[1]{#1}
 
 \newtcolorbox{optional}[1][]{%
@@ -130,13 +131,14 @@ arc=0pt,outer arc=0pt,
 \newcommand{\be}{\begin{equation}}
 \newcommand{\ee}{\end{equation}}
 
+
 %Uncomment next line if AMS fonts required
 %\usepackage{iopams}  
 \begin{document}
 
 \title{A practical guide to Digital Micro-mirror Devices (DMDs) for wavefront shaping}
 
-\author{Sébastien M. Popoff~\orcidlink{0000-0002-7199-9814}}
+\author{Sébastien M. Popoff~\footnote{corresponding author}~\orcidlink{0000-0002-7199-9814}}
 \address{Institut Langevin, ESPCI Paris, PSL University, CNRS, France}
 \ead{sebastien.popoff@espci.psl.eu}
 
@@ -149,6 +151,8 @@ arc=0pt,outer arc=0pt,
 
 \author{Maxime W. Matthès}
 \address{Institut Langevin, ESPCI Paris, PSL University, CNRS, France}
+
+
 
 % \address{IOP Publishing, Temple Circus, Temple Way, Bristol BS1 6HG, UK}
 \vspace{10pt}
@@ -283,7 +287,7 @@ Lastly, we discuss how the thermalization of the DMD chip can potentially result
   \end{subfigure}
   \begin{subfigure}{0.49\textwidth}
     \centering
-    \includegraphics[width = \textwidth]{images/pixel_2.jpg}
+    \includegraphics[width = \textwidth]{images/pixel_2.png}
     \label{fig:pix_right}
   \end{subfigure}
   \caption{
@@ -586,6 +590,32 @@ close to the maximum of the envelope.
     and $d=10.8$\textmu m (b.).
   }
   \label{fig:mu_2d}
+\end{figure}
+
+To illustrate the link between the blaze number and the efficiency of the diffraction setup, 
+we compute the ratio of the energy in the brightest diffraction spot to the total diffracted energy 
+for different values of the wavelength, 
+with fixed values for the pixel pitch (7.6 \textmu m) and incident angle (normal incidence).
+We simulate the DMD with no gap between the pixels (i.e., a filling fraction of 100\%) 
+and with 30 pixels in each direction, 
+where all the mirrors of the pixels are in the same state. 
+The results are shown in Fig.~\ref{fig:mu_vs_diff}.
+We observe that the maxima (resp. minima) of the diffraction efficiency 
+correspond to the maxima (resp. minima) of the blaze number. 
+Note that the actual values of the minimum and maximum diffraction efficiency depend on the parameters of the DMD, such as pixel pitch, filling fraction, resolution, etc.
+
+\begin{figure}
+  \centering
+  \includegraphics[width = \textwidth]{images/mu_vs_diffeff.pdf}
+  \caption{
+    \textbf{Blazed number vs diffraction efficiency.
+    }
+    Plot of the blazed number and the diffraction efficiency for a normal incidence and a pixel pitch of  7.6 \textmu m 
+    as a function of the wavelength. 
+    The diffraction efficiency is estimated by comparing the energy in a diffracted limited spot at the 
+    location of the brightest diffraction order to the total diffracted energy.
+  }
+  \label{fig:mu_vs_diff}
 \end{figure}
 
 \subsection{Modulation cross-talk}
@@ -1375,6 +1405,12 @@ The Fourier transform of Eq.~\ref{eq:grating_response} can be written as:
 We observe that the envelope (right hand term) is maximal for $\text{sin}(\theta_{max}) = \text{sin}(\alpha-2\theta_B)$
 while the effect of the periodicity (left hand term) is maximal for $\text{sin}(\theta_p)+ \text{sin}(\alpha) = p \lambda/d$,
 representing the orders of diffraction.
+
+\section*{Acknowledgments}
+
+\noindent 
+S.M.P, M.W.M, and R.G.C and acknowledge the French \textit{Agence Nationale pour la Recherche} grants No. ANR-23-CE42-0010-01 MUFFIN and No. ANR-20-CE24-0016 MUPHTA 
+and the  Labex WIFI grant No. ANR-10-LABX-24, ANR-10-IDEX-0001-02 PSL*. 
 
 
 \section{Bibliography}
