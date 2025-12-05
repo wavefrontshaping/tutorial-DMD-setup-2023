@@ -70,8 +70,8 @@
 
 \definecolor{bg}{RGB}{255,249,227}
 \definecolor{light_orange}{RGB}{255,193,134}
-% \newcommand{\red}[1]{\textcolor{red}{#1}}
-\newcommand{\red}[1]{#1}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+% \newcommand{\red}[1]{#1}
 
 \newtcolorbox{optional}[1][]{%
 enhanced jigsaw,
@@ -130,6 +130,8 @@ arc=0pt,outer arc=0pt,
 
 \newcommand{\be}{\begin{equation}}
 \newcommand{\ee}{\end{equation}}
+
+% macro for red color
 
 
 %Uncomment next line if AMS fonts required
@@ -219,7 +221,7 @@ restricting their utility in complex media where a large number of degrees of fr
 Liquid Crystal Spatial Light Modulators (LC-SLMs),
 which allow for the control of light phase across typically more than a million pixels,
 have emerged as powerful tools for wavefront shaping in complex media
-since the seminal work of A. Most and I. Vellekoop in the mid-2000s~\cite{Vellekoop2007focusing}.
+since the seminal work of A. \red{Mosk} and I. Vellekoop in the mid-2000s~\cite{Vellekoop2007focusing}.
 Nonetheless, LC-SLMs are hampered by their slow response time,
 permitting only a modulation speed ranging from a few Hz to \red{a few hundred} Hz.\\
 
@@ -278,10 +280,23 @@ For the remainder of this paper, it will be assumed that the DMD is used for com
 While other articles exist describing the various aspects of DMDs~\cite{Park2015properties, Scholes2019structured, Cox2021converting, Wang2023diffraction},
 this tutorial aims to provide a guide for easily setting up a DMD for wavefront shaping applications in complex media.
 In particular, we provide characterization and validation procedures that require minimal changes compared to typical wavefront shaping setups. 
-\red{
 More specifically, we place ourselves in a standard experiment where the goal is to shape the complex wavefront impinging on a complex medium and control or measure its output response. 
-This is typically the case for a focusing experiment~\cite{Vellekoop2007focusing} or for measuring the transmission matrix of a complex medium~\cite{Popoff2010Measuring}.
-}\\
+This is typically the case for a focusing experiment~\cite{Vellekoop2007focusing} or for measuring the transmission matrix of a complex medium~\cite{Popoff2010Measuring}. 
+\red{
+In such works,
+complex modulation is usually achieved by encoding the optical phase
+into the spatial displacement of binary fringes
+displayed on the DMD,
+followed by filtering high spatial frequencies in the Fourier plane~\cite{lee1979binary}.
+Such a configuration permits multi-level complex modulation,
+at the cost of a reduced spatial resolution.
+The implementation and performance of such systems are discussed in detail in a separate tutorial~\cite{Gutierrez2024DMD}
+and are not elaborated further here.
+For the remainder of this paper, it will be assumed that the DMD is used
+for complex modulation via such a method.
+}
+\\
+
 We first introduce the diffraction properties of a DMD
 and elaborate on how these could impact the system's efficiency.
 We also furnish a straightforward criterion for selecting the appropriate DMD parameters for a specified excitation wavelength.
@@ -325,21 +340,25 @@ Lastly, we discuss how the thermalization of the DMD chip can potentially result
 
 \section{Choosing the right DMD: Diffraction effects}
 
-\subsection{A 1D model}
-
 A significant distinction between liquid crystal modulators and DMDs
 lies in the geometry of the pixel surface: 
 The pixels of the DMD are not flat, but are mirrors that can be tilted 
 in two different positions around a rotation axis
 along the diagonal of the square shape of the pixels.
 This difference gives rise to diffraction effects that can adversely affect
-both modulation quality and system efficiency.
+both modulation quality and diffraction efficiency, 
+\red{defined the fraction of the incident optical power that 
+is redistributed into a single diffraction order.}.
 The impact of these diffraction effects is highly dependent on several factors:
 the wavelength of illumination, the pixel pitch, and both the incident and outgoing angles.
 Therefore, in conjunction with selecting an appropriate anti-reflection coating,
 it is crucial to ensure that the pixel pitch is compatible with the specific configuration being used.
 Texas Instruments offers chips with a variety of pixel pitches $d$,
 ranging approximately from $5$ to $\sim25$ \textmu m~\cite{TI}.\\
+
+\subsection{A 1D model}
+
+
 
 
 To achieve a qualitative understanding of this issue,
@@ -350,24 +369,55 @@ with a period $d$ that is equivalent to the pixel pitch.
 It is important to underscore that these modulators possess a hardware-limited fill factor,
 typically around 90\%.
 This translates to an effective active pixel size of $d' < d$.\\
+\red{
+We compare here two types of gratings:
+Flat gratings, corresponding to LC-SLMs (Liquid Crystal Spatial Light Modulators),
+in which all pixels are in the same state;
+and blazed gratings, corresponding to DMDs,
+in which all pixels are tilted by the same angle.
+A grating gives rise to multiple diffraction orders,
+whose amplitudes are modulated by a global envelope.
+Importantly, these two effects can be decoupled.
+The diffraction order angles $\theta_p$
+are determined by the grating periodicity,
+while the envelope, and in particular the position of its maximum $\theta_{\mathrm{envelope}}^{\max}$,
+is governed by the structure of a single pixel,
+which constitutes the unit cell of the grating.
+}
+
+\subsubsection{Diffraction orders\\}
+
 
 In general, a grating gives rise to various diffraction orders
 with different intensities
 and angles $\theta_p$, as dictated by the grating equation:
-$
- \text{sin}(\theta_p)+ \text{sin}(\alpha) = p\lambda/d = p \, \text{sin}(\theta_D),
-$
+\begin{equation}
+    \text{sin}(\theta_p)+ \text{sin}(\alpha) = p\lambda/d = p \, \text{sin}(\theta_D),    
+    \label{eq:1D_orders}
+\end{equation}
+
+
 where $\lambda$ is the wavelength of the light, $\alpha$ is the incident angle, 
-$\theta_D = \arcsin \left(\lambda/S\right)$ is the angle of the first diffraction order,
+$\theta_D = \arcsin \left(\lambda/d\right)$ is the angle of the first diffraction order,
 and $p$ is an integer value denoting the orders of diffraction.
 The intensity of the individual diffraction orders is influenced by
 the response of a single pixel,
 constituting the unit cell of the grating,
 and that is governed by $d$, $d'$, and its rotation angle in the case of a DMD.
-Importantly, we can decouple the effects of the grating's periodicity,
-which influences the angles of the diffraction orders,
-from the effects of the response of a single pixel,
-which shapes the envelope of the angular response.\\
+\red{
+While this regime is not always relevant,
+we can adopt the small-angle approximation to obtain
+a qualitative picture of the effect of the incident angle $\alpha$
+on the diffraction orders.
+In this case, we have $\theta_p \approx p\lambda/d - \alpha$.
+Thus, changing the incident angle effectively
+rotates all diffraction orders by an angle $-\alpha$.
+}\\
+% Importantly, we can decouple the effects of the grating's periodicity,
+% which influences the angles of the diffraction  \red{$\theta_p$},
+% from the effects of the response of a single pixel,
+% which shapes the envelope of the angular response.\\
+
 
 \begin{figure}
   \centering
@@ -384,37 +434,129 @@ which shapes the envelope of the angular response.\\
   \label{fig:grating_geom}
 \end{figure}
 
-
-For a case of normal incidence with an LC-SLM (Liquid Crystal Spatial Light Modulator),
-we can assume that the response of a single pixel is uniform over its surface.
-Similarly, in the scenario of a blazed grating,
-such as a DMD, a linear phase slope is present on each pixel.
-This is due to the tilt angle $\theta_B$ of the mirrors.
-For an arbitrarily selected incidence angle $\alpha$,
-a global phase slope is introduced.
-This results in a trivial shift of the angular diffraction pattern by an angle $\alpha$.
-The incident angle $\alpha$ has the effect of shifting the entire angular diffraction pattern
-relative to the case of normal incidence,
-while the blazed angle $\theta_B$
-—the tilt angle of the micro-mirrors of the DMD—
-only shifts the envelope by an angle of $2\theta_B$.
-Whenever the fill factor approaches 100\%,
+\subsubsection{Position of the maximum of the envelope\\}
+% For a case of normal incidence with an LC-SLM (Liquid Crystal Spatial Light Modulator),
+% we can assume that the response of a single pixel is uniform over its surface.
+% Similarly, in the scenario of a blazed grating,
+% such as a DMD, a linear phase slope is present on each pixel.
+% This is due to the tilt angle $\theta_B$ of the mirrors.
+\red{
+The envelope of the diffracted field,
+which sets the amplitude of each diffraction order,
+is governed by the response of each unit cell, i.e. each pixel.
+In a flat grating excited at normal incidence,
+the envelope is peaked around the normal to the surface, i.e. $\theta_{envelope}^{max} = 0$.
+In a blazed grating,
+the tilt angle $\theta_B$ introduces a linear phase ramp
+in the response of each individual pixel.
+A flat grating can be seen as a particular case with $\theta_B = 0$.
+The incidence angle $\alpha$ also adds
+a global phase slope.
+When the fill factor approaches 100\%,
 i.e. when $d \approx d'$,
-the envelope for a flat grating achieves its maximum at $\theta_0 = -\alpha$;
-this corresponds to the angle of the zeroth-order diffraction,
-and the intensity is comparatively small for all other orders.
-In these specific conditions, a singular diffraction order is visually perceived, corresponding to the optimum scenario.
-The addition of a blazed angle $\theta_B$ results in both
-a shift in the envelope and in the position of its maximum 
-$\theta_0 = 2\theta_B - \alpha$.
-In the general case,
-this position may not align with a diffraction order anymore~\cite{Park2015properties}.
-We provide in Appendix A.  a 1D computation of this effect.
-A more accurate computation of the far field can be found  in ~\cite{Wang2023diffraction}.\\
+the cumulative effect leads to a shift of the envelope
+by an angle $2\theta_B - \alpha$.
+This results in a maximum of the envelope at
+}
+
+\begin{equation}
+    \theta_{envelope}^{max}= 2\theta_B - \alpha
+    \label{eq:1D_envelope}
+\end{equation}
+
+\red{
+which reduces to $\theta_{envelope}^{max} = -\alpha$ in the case of a flat grating.
+We detail the calculation of this effect in Appendix~A.
+}
+
+\subsubsection{Blazed grating condition\\}
+
+\red{
+In the case of a flat grating ($\theta_B = 0$), we see from Eqs.~\ref{eq:1D_orders} and~\ref{eq:1D_envelope}
+that the position of the first order is always aligned with the maximum of the envelope
+at the angle $-\alpha$,
+when the filling fraction is close to 1.
+In the general case $\theta_B \neq 0$,
+$\theta_{envelope}^{max}$ does not, in general, coincide
+with any diffraction order~\cite{Park2015properties, Wang2023diffraction}.
+This leads to a redistribution of the energy of the incoming beam
+into multiple diffraction orders,
+resulting in a reduced diffraction efficiency
+as well as cross-talk between different pixel states,
+as studied in section~\ref{sub:crosstalk}.\\
+}
+
+\red{
+The maximal diffraction efficiency is obtained 
+when the maximum of the envelope matches one order of diffraction. 
+This state is achieved when the conditions of the blazed grating equation are fulfilled~\cite{Casini2014on}, 
+i.e. where there exist an integer $p$ so that we satisfy:
+}
+
+\begin{equation}
+  \text{sin}(2\theta_B-\alpha) + \text{sin}(\alpha)
+  = 2 \,\text{sin}(\theta_B)  \,\text{cos}(\theta_B-\alpha)
+  = p\frac{\lambda}{d} \, .
+  \label{eq:blazed_eq}
+\end{equation}
+
+\red{
+In particular, in the Littrow configuration, 
+i.e. for $\alpha = \theta_B$, we have $\theta_{max}^{envelope} = \alpha$; 
+the diffraction and incidence angles are identical. 
+The optimal condition is then satisfied for $\sin(\theta_B)={p\lambda}/{(2d)} = \sin(\theta_D)/2$.
+}
+
+% The later results in a trivial shift of the angular diffraction pattern by an angle $-\alpha$.
+% The incident angle $\alpha$ has the effect of shifting the entire angular diffraction pattern
+% relative to the case of normal incidence,
+% while the blazed angle $\theta_B$
+% —the tilt angle of the micro-mirrors of the DMD—
+% only shifts the envelope by an angle of $2\theta_B$.
+% Whenever the fill factor approaches 100\%,
+% i.e. when $d \approx d'$,
+% the envelope for a flat grating achieves its maximum at \red{$\theta_{envelope}^{max} = -\alpha$};
+% this corresponds to the angle of the zeroth-order  \red{$\theta_{p=0}$},
+% and the intensity is comparatively small for all other orders.
+% In these specific conditions, a singular diffraction order is visually perceived, corresponding to the optimum scenario.
+% The addition of a blazed angle $\theta_B$ results in both
+% a shift in the envelope and in the position of its maximum 
+% \red{$\theta_{envelope}^{max}= 2\theta_B - \alpha$. 
+% The envelope is peaked at the angle corresponding to the reflection on a 
+% unit cell, which consists in a mirror tilted with an angle $\theta_B$ 
+% with respect to the surface of the grating.}
+% \red{
+% We show in Appendix A. that the angles of the diffraction orders
+% are given by
+% $
+% \theta_p = \arcsin \left( 
+%     p\,\lambda/d -sin(\alpha) \right)
+% $,
+
+% } 
+
+\subsubsection{Example\\}
 
 
-We represent in Fig.~\ref{fig:gratings} the angular response of a flat grating and a blazed grating
-for a 1D filling fraction of 95\% (correponding to a 2D filling fraction of $\approx 90$\%).
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = 0.75 \textwidth]{paper/images/Fig3bis.pdf}
+  \caption{
+    \textbf{1D grating example.}
+    All angles are defined with respect to the normal of the surface of the the grating, 
+    denoted by $\vec{n}_G$, and are taken as positive for clockwise rotations and negative for counter-clockwise rotations.
+    The blazing angle $\theta_B$ is the angle between the normal to the micro-mirror $\vec{n}_M$ and $\vec{n}_G$.
+    The angles of the diffraction orders $\theta_p$ are independent of $\theta_B$, while the maximum of the envelope is at $\theta_{max}^{envelope} = 2\theta_B -\alpha$.
+  }
+  \label{fig:grating_geom_example}
+\end{figure}
+
+\red{
+We represent in Fig.~\ref{fig:grating_geom_example} an example of a geometry 
+for a 1D blazed grating and 
+in Fig.~\ref{fig:gratings} its angular response 
+as well as the one corresponding to a flat grating with the same parameters.}
+We take a 1D filling fraction of 95\% (correponding to a 2D filling fraction of $\approx 90$\%).
 For a flat grating, the zero-th order contains most of the intensity,
 the other orders being negligible in comparison.
 For the blazed grating example shown,
@@ -424,15 +566,25 @@ and other orders also have non-negligible contributions.
 In the optimal scenario, where the peak of the envelope corresponds to a diffraction order,
 it results in a single diffraction order carrying the majority of the energy.
 This state is achieved when the conditions of the blazed grating equation are fulfilled~\cite{Casini2014on}:
+}
 
 
+% \begin{equation}
+%   \text{sin}(2\theta_B-\alpha) + \text{sin}(\alpha)
+%   = 2 \,\text{sin}(\theta_B)  \,\text{cos}(\theta_B-\alpha)
+%   = p\frac{\lambda}{d} \, .
+%   \label{eq:blazed_eq}
+% \end{equation}
 
-\begin{equation}
-  \text{sin}(2\theta_B-\alpha) + \text{sin}(\alpha)
-  = 2 \,\text{sin}(\theta_B)  \,\text{cos}(\theta_B-\alpha)
-  = p\frac{\lambda}{d} \, .
-  \label{eq:blazed_eq}
-\end{equation}
+% \red{
+% In particular, in the Littrow configuration, i.e. for $\alpha = \theta_B$, 
+% we have $\theta_{max}^{envelope} = \alpha$; 
+% the diffraction and incidence angles are identical. 
+% The optimal condition is then satisfied for 
+% $\sin(\theta_B)={p\lambda}/{(2d)} = \sin(\theta_D)/2$.
+%  }
+% For the special case, where sin(theta_B)=p\lambda/d  that all the energy goes to the p order for \theta_b=\alpha. The intuition is that that for this wavelength a plane wave  accumulates phase of p*2*pi, so like a flat mirror. 
+
 
 
 
@@ -440,12 +592,12 @@ This state is achieved when the conditions of the blazed grating equation are fu
   \centering
   \begin{subfigure}{0.49\textwidth}
     \centering
-    \includegraphics[width = \textwidth]{images/gratings_flat.pdf}
+    \includegraphics[width = \textwidth]{images/flat_grating_lin_log.pdf}
     \label{fig:flat_grating}
   \end{subfigure}
   \begin{subfigure}{0.49\textwidth}
     \centering
-    \includegraphics[width = \textwidth]{images/gratings_blazed.pdf}
+    \includegraphics[width = \textwidth]{images/blazed_grating_lin_log.pdf}
     \label{fig:blazed_right}
   \end{subfigure}
   \caption{
@@ -467,24 +619,37 @@ This state is achieved when the conditions of the blazed grating equation are fu
 
 \subsection{The 2D case}
 
-To analyze more precisely the effect of diffraction in a DMD,
-one needs to consider the 2D surface of the modulator.
-We can establish a Cartesian coordinate system on the plane of the DMD,
-with axes $x$ and $y$ aligned with the pixel sides
-(refer to Fig.~\ref{fig:2d_geom}a).
-The pixels are uniformly repeated along these axes.
-However, a technical challenge arises
-in that the axis of rotation of the pixels
-aligns with the pixel diagonals,
-resulting in a rotation by 45 degrees with respect to the $x$ and $y$ axes.
-For the convenience of alignment and manipulation of the optical setup,
-it is preferable to work with the incident and outgoing beams
-which have the optical axis contained in the horizontal plane,
-i.e. a plane parallel to the table surface.
-A straightforward and common solution is to rotate the chip by 45 degrees
-relative to the horizontal plane,
-which aligns the pixel axis of rotation to be vertical.
-This configuration is depicted in Fig.~\ref{fig:2d_geom}b.\\
+% To analyze more precisely the effect of diffraction in a DMD,
+% one needs to consider the 2D surface of the modulator.
+% We can establish a Cartesian coordinate system on the plane of the DMD,
+% with axes $x$ and $y$ aligned with the pixel sides
+% (refer to Fig.~\ref{fig:2d_geom}a).
+% The pixels are uniformly repeated along these axes.
+% However, a technical challenge arises
+% in that the axis of rotation of the pixels
+% aligns with the pixel diagonals,
+% resulting in a rotation by 45 degrees with respect to the $x$ and $y$ axes.
+% For the convenience of alignment and manipulation of the optical setup,
+% it is preferable to work with the incident and outgoing beams
+% which have the optical axis contained in the horizontal plane,
+% i.e. a plane parallel to the table surface.
+% A straightforward and common solution is to rotate the chip by 45 degrees
+% relative to the horizontal plane,
+% which aligns the pixel axis of rotation to be vertical.
+\subsubsection{Blazed grating condition\\}
+\red{
+A DMD consists of a 2D array of micro-mirrors.
+In most DMDs, the rotation axis of the mirrors
+is aligned with the pixel diagonals.
+For convenience in the alignment and manipulation of the optical setup,
+it is preferable to work with incident and outgoing beams
+whose optical axes lie in the horizontal plane.
+A straightforward and common solution is to rotate the chip by $45^\circ$
+with respect to the horizontal plane,
+which makes the pixels' rotation axis vertical.
+This configuration is depicted in Fig.~\ref{fig:2d_geom}.
+We show in Appendix B. that it leads to a new blazed grating equation that reads:
+}\\
 
 
 
@@ -503,61 +668,61 @@ This configuration is depicted in Fig.~\ref{fig:2d_geom}b.\\
 \end{figure}
 
 
-A more detailed description of the 2D system 
-and computation of its response 
-can be found in~\cite{Scholes2019structured}.
-However, we can find a simple condition for
-having most of the energy in one diffraction order 
-by looking at the effect of the tilts of the mirrors 
-when the axis is rotated by 45 degrees compared to 
-the axis of the pixel array (axes $x$ and $y$). 
-We consider a plane wave with an incoming angle $\alpha$ contained in the horizontal plane 
-(i.e. orthogonal to the rotation axis of the micro-mirrors).
-The effect of this angle is represented by a phase term of the form:
+% A more detailed description of the 2D system 
+% and computation of its response 
+% can be found in~\cite{Scholes2019structured}.
+% However, we can find a simple condition for
+% having most of the energy in one diffraction order 
+% by looking at the effect of the tilts of the mirrors 
+% when the axis is rotated by 45 degrees compared to 
+% the axis of the pixel array (axes $x$ and $y$). 
+% We consider a plane wave with an incoming angle $\alpha$ contained in the horizontal plane 
+% (i.e. orthogonal to the rotation axis of the micro-mirrors).
+% The effect of this angle is represented by a phase term of the form:
 
-\begin{equation}
-{\vec{k}_{in}\cdot\vec{r}} = {\frac{2\pi}{\lambda}\sin\alpha \frac{\left(x - y\right)}{\sqrt{2}}}
-\, ,
-\end{equation}
+% \begin{equation}
+% {\vec{k}_{in}\cdot\vec{r}} = {\frac{2\pi}{\lambda}\sin\alpha \frac{\left(x - y\right)}{\sqrt{2}}}
+% \, ,
+% \end{equation}
 
-with $\vec{k}_{in}$ the incoming wavevector and $\vec{r}$ the position in the modulator plane, 
-represented by the coordinate $(x,y)$.
+% with $\vec{k}_{in}$ the incoming wavevector and $\vec{r}$ the position in the modulator plane, 
+% represented by the coordinate $(x,y)$.
 
-The grating condition is achieved when the output contributions are in phase 
-for the output angle corresponding to the specular reflection on the tilted mirrors. 
-It corresponds to the plot on the left in Fig.\ref{fig:gratings} for the 1D case.
-The phase contribution resulting from an output angle $2\theta_B-\alpha$, 
-corresponding to the specular reflection on each micro-mirror,
-reads:
+% The grating condition is achieved when the output contributions are in phase 
+% for the output angle corresponding to the specular reflection on the tilted mirrors. 
+% It corresponds to the plot on the left in Fig.\ref{fig:gratings} for the 1D case.
+% The phase contribution resulting from an output angle $2\theta_B-\alpha$, 
+% corresponding to the specular reflection on each micro-mirror,
+% reads:
 
-\begin{equation}
-\vec{k}_{out}\cdot\vec{r} 
-= {\frac{2\pi}{\lambda}\sin\left(2\theta_B - \alpha\right) \frac{\left(x - y\right)}{\sqrt{2}}}
-\, ,
-\end{equation}
+% \begin{equation}
+% \vec{k}_{out}\cdot\vec{r} 
+% = {\frac{2\pi}{\lambda}\sin\left(2\theta_B - \alpha\right) \frac{\left(x - y\right)}{\sqrt{2}}}
+% \, ,
+% \end{equation}
 
-The total phase then reads:
+% The total phase then reads:
 
-\begin{equation}
-\phi(x,y) = \vec{k}_{in}.\vec{r}  + \vec{k}_{out}.\vec{r} =  
-{\frac{2\pi}{\lambda}\sin\left(2\theta - \alpha\right) \frac{\left(x - y\right)}{\sqrt{2}}} +
-{\frac{2\pi}{\lambda}\sin\alpha \frac{\left(x - y\right)}{\sqrt{2}}} 
-\, .
-\end{equation}
-
-
+% \begin{equation}
+% \phi(x,y) = \vec{k}_{in}.\vec{r}  + \vec{k}_{out}.\vec{r} =  
+% {\frac{2\pi}{\lambda}\sin\left(2\theta - \alpha\right) \frac{\left(x - y\right)}{\sqrt{2}}} +
+% {\frac{2\pi}{\lambda}\sin\alpha \frac{\left(x - y\right)}{\sqrt{2}}} 
+% \, .
+% \end{equation}
 
 
-We see that $x$ and $y$ have the same effect.
-The grating condition is then achieved when two consecutive pixels, 
-separated by a distance $d$ in both the $x$ and $y$ directions, are in phase.
-I.e. for
 
-\begin{equation}
-  \phi(x,y) = \phi(x+d,y) = \phi(x,y+d) \, .
-\end{equation}
 
-The new blazed grating equation then reads~:
+% We see that $x$ and $y$ have the same effect.
+% The grating condition is then achieved when two consecutive pixels, 
+% separated by a distance $d$ in both the $x$ and $y$ directions, are in phase.
+% I.e. for
+
+% \begin{equation}
+%   \phi(x,y) = \phi(x+d,y) = \phi(x,y+d) \, .
+% \end{equation}
+
+% The new blazed grating equation then reads~:
 
 \begin{equation}
   \text{sin}(2\theta_B-\alpha) + \text{sin}(\alpha)
@@ -574,9 +739,9 @@ but the grating condition in the 2D case is
 similar when considering an incident plane wave in the horizontal plane.\\
 
 
-
+\subsubsection{Blazed number\\}
 We can quantify how close we are to the ideal case,
-i.e., when satisfying the blazed this equation,
+i.e., when satisfying the blazed equation,
 by defining a {\em blazed number} $\mu$ as introduced in~\cite{WFSnet_diffraction}:
 
 
@@ -595,10 +760,21 @@ by defining a {\em blazed number} $\mu$ as introduced in~\cite{WFSnet_diffractio
 where $\mod{2}$ represents the modulo 2 operation.
 $\mu$ is maximal and equals $1$ when the blazing equation is satisfied,
 i.e. when one order of diffraction contains most of the energy,
-and minimal when we are in the worst-case scenario,
-i.e. when four orders of diffraction have a significant and equal intensity.\\
+\red{ 
+corresponding to one diffraction order $p$
+being close to the maximum of the envelope
+($\theta_p \approx \theta^{\mathrm{envelope}}_{\max}$).
+$\mu$ is minimal in the worst-case scenario,
+i.e. when four diffraction orders have a significant and equal intensity.
+Note that, since the maximum of the envelope is no longer aligned
+with the zeroth order, corresponding to the specular reflection on the micro-mirrors,
+the value of the order $p$ that aligns with the envelope peak
+when $\mu \approx 1$ can take any integer value,
+and depends on the DMD parameters and on the angle of incidence $\alpha$.
+}
+\\
 
-
+\subsubsection{Simulations\\}
 To demonstrate the effect, we first conduct a simulation of a DMD using Python
 (refer to tutorial and code in~\cite{WFSnet_diffraction})
 with two pixel pitches of
@@ -609,14 +785,17 @@ as a function of the angle of incidence $\alpha$ in the horizontal plane,
 along with the far field diffraction pattern for two distinct incident angles. 
 Fig.~\ref{fig:mu_2d} shows the blazed number as a function of both the incident angle 
 and the wavelength for pixel pitches of $d=7.6$\textmu m and $d=10.8$\textmu m.
-It should be noted that the efficiency of diffraction can be altered by adjusting
+It should be noted that the efficiency of diffraction,
+\red{i.e. the fraction of the incident optical power that is diffracted into a given diffraction order 
+relative to the incident power, }
+can be altered by adjusting
 the angle of incidence $\alpha$.
 However, its impact is relatively confined
 within an acceptable angular range that aligns with experimental limitations
 (i.e. for angles far from $\pm 90^\circ$).
 Far-field patterns are centered around the maximum of the envelope
 for an output angle $2\theta_B - \alpha$
-(marked by a yellow cross).
+(marked by a \red{red} cross).
 We see that for small positive values of $\alpha$,
 the pixel pitch of $d=10.8$\textmu m leads to a blazed number $\mu$
 close to $1$.
@@ -632,7 +811,8 @@ close to the maximum of the envelope.
     and $d=10.8$\textmu m (b.).
     Corresponding far-field diffraction patterns (bottom)
     for two incident angles $\alpha = -15^\circ$ and $\alpha = 0^\circ$.
-    The red cross indicates the maximum of the envelope $\theta_\text{max} = 2\theta_B - \alpha$.
+    The red cross indicates the maximum of the envelope $\theta^{envelope}_\text{max} = 2\theta_B - \alpha$
+    \red{with $\theta_B = -12^\circ$}.
   }
   \label{fig:mu76}
 \end{figure}
@@ -644,7 +824,7 @@ close to the maximum of the envelope.
     \textbf{Blazed number as a function of the wavelength and the incident angle.
     }
     Color map representation of the blazed number for a pixel pitch of $d=7.6$\textmu m (a.)
-    and $d=10.8$\textmu m (b.).
+    and $d=10.8$\textmu m (b.) \red{for $\theta_B = -12^\circ$}.
   }
   \label{fig:mu_2d}
 \end{figure}
@@ -659,7 +839,16 @@ where all the mirrors of the pixels are in the same state.
 The results are shown in Fig.~\ref{fig:mu_vs_diff}.
 We observe that the maxima (resp. minima) of the diffraction efficiency 
 correspond to the maxima (resp. minima) of the blaze number. 
-Note that the actual values of the minimum and maximum diffraction efficiency depend on the parameters of the DMD, such as pixel pitch, filling fraction, resolution, etc.\\
+Note that the actual values of the minimum and maximum diffraction efficiency depend on the parameters of the DMD, such as pixel pitch, filling fraction, resolution, etc.
+\red{
+In a practical situation, pixels are not all in the same state:
+the configuration is a mix of \textit{on} and \textit{off} states
+corresponding to angles $\pm \theta_B$.
+The diffraction efficiency then also depends
+on the modulation scheme and on the specific parameters used for the modulation.
+This topic is addressed in detail in a separate tutorial
+focusing on complex modulation using binary amplitude modulators~\cite{Gutierrez2024DMD}.
+}\\
 
 
 
@@ -671,7 +860,7 @@ Note that the actual values of the minimum and maximum diffraction efficiency de
     }
     Plot of the blazed number and the diffraction efficiency for a normal incidence and a pixel pitch of  7.6 \textmu m 
     as a function of the wavelength. 
-    The diffraction efficiency is estimated by comparing the energy in a diffracted limited spot at the 
+    The diffraction efficiency is estimated by comparing the energy in a \red{diffraction} limited spot at the 
     location of the brightest diffraction order to the total diffracted energy.
   }
   \label{fig:mu_vs_diff}
@@ -730,6 +919,7 @@ and the diffraction efficiency.
 
 
 \subsection{Modulation cross-talk}
+\label{sub:crosstalk}
 
 In practice, we place a pinhole or iris to select
 one order of diffraction,
@@ -895,9 +1085,15 @@ provides a spatial phase profile of the introduced aberrations based on the oper
 It is noteworthy that when utilized for intensity modulation on a plane conjugated to the DMD plane,
 as it is done in digital projectors,
 the system becomes insensitive to the aberrations caused by the DMD surface.
-Consequently, these effects are commonly overlooked and rarely documented in the information provided by the manufacturers.
-Nonetheless, they are non-negligible, with deviations from a flat surface
-that typically spans several wavelengths~\cite{Brown2021multicolor}.\\
+Consequently, these effects are commonly overlooked and rarely documented in the information provided by the manufacturers. 
+\red{
+However, studies suggest that
+the residual stresses developed in the thin films
+during the manufacturing process of the DMDs
+induce non-negligible surface deformations~\cite{WEI2004375, Cao2001curvature, Brown2021multicolor}.
+}
+% Nonetheless, they are non-negligible, with deviations from a flat surface
+% that typically spans several wavelengths~\cite{Brown2021multicolor}.\\
 
 
 
@@ -916,9 +1112,25 @@ setup conditions,
 and frequently require supplementary optical components,
 meticulous alignment,
 and custom software.
-Furthermore, they also demand
+\red{
+Those approaches require
 a meticulously calibrated and stable setup.
-In this section, we introduce a straightforward method to characterize the aberrations using a lens and a camera.
+Moreover, once the phase correction map has been obtained,
+it must then be aligned with the pixel array
+in order to implement the phase correction on the DMD
+and compensate for aberrations.
+}
+In this section, we introduce a straightforward method for characterizing aberrations using a lens and a camera.
+\red{
+The goal is to \textit{in situ} compensate for the aberrations
+using a phase modulation scheme (Lee holograms),
+by iteratively optimizing the point spread function (PSF)
+at the focal plane of a lens. 
+The resulting phase correction map is the conjugate of the one
+induced by the surface deformation of the DMD,
+and can subsequently be used to correct aberrations
+with any desired complex modulation scheme.
+}
 This technique can be employed for any system that offers phase modulation,
 such as LC-SLMs or deformable mirrors. \\
 
@@ -936,14 +1148,22 @@ such as LC-SLMs or deformable mirrors. \\
     (b) A schematic representation of the setup employed to characterize the aberrations.
     A camera is used to image the far field on the DMD surface using a lens.
     (c) shows the ideal intensity pattern corresponding to the numerical aperture of the illumination setup,
-    i.e. its theoretical ideal point spread function.
-    (d) show the actual recorded intensity pattern corresponding to a distorted point spread function due to the DMD aberrations.
+    i.e. its theoretical ideal PSF.
+    (d) show the actual recorded intensity pattern corresponding to a distorted PSF due to the DMD aberrations.
   }
   \label{fig:dmd_aberr_setup}
 \end{figure}
 
 
-We assume the DMD is configured to deliver phase modulation~\cite{lee1979binary,Gutierrez2024DMD}.
+We assume that the DMD is configured to deliver phase modulation~\cite{lee1979binary,Gutierrez2024DMD}. 
+\red{
+It is classically done using Lee holograms or similar approaches,
+where the optical phase is encoded in the local spatial displacement
+of a regular array of amplitude fringes displayed on the DMD.
+By filtering a single diffraction order,
+the resulting field retains only the phase modulation.
+Specific implementations and variants of such approaches are discussed in~\cite{Gutierrez2024DMD}.
+}
 This implies that the modulator can be divided into $N$ sections,
 which we designate as {\em macropixels},
 where the phase can be controlled independently.
@@ -978,7 +1198,7 @@ Note that for the later approach to be reliable, it is necessary to properly ali
     or a multimode fiber (MMF).
     A beamsplitter is used to image the far field of the DMD onto a camera
     using a lens (L$_\text{2}$).
-    The intensity pattern, up to a homotetic transformation,
+    The intensity pattern, up to a \red{homothetic} transformation,
     represent the input excitation on the medium
     which also corresponds to the PSF of the illumination setup.
     (b) In the case of a multimode fiber,
@@ -1024,7 +1244,7 @@ We create this pattern in the basis of Zernike polynomials
     i.e. we optimize the ratio between 
     the sum of the intensity of the measured image in a diffraction-limited disk
     and the sum of the intensity elsewhere.    
-    We both want to maximize the intensity of the main lobe of the point spread function
+    We both want to maximize the intensity of the main lobe of the PSF
     and minimize its side lobes.
     (b) Values of the experimentally obtained optimal coefficients in the Zernike polynomials basis.
     (c) Resulting optimal phase pattern in the chosen illumination area.
@@ -1035,17 +1255,28 @@ We create this pattern in the basis of Zernike polynomials
 We perform a sequential optimization of parameters $a_n$
 to maximize a specific function designed
 to be maximal for the ideal correction of optical aberrations.
+\red{
+The approach is inspired by methods used for focusing through
+complex disordered media}~\cite{Vellekoop2007focusing}\red{,
+by effectively treating the aberrations of the DMD
+as equivalent to propagation through an unknown linear medium.
+For each degree of freedom
+(i.e. the phase on one group of pixels in Ref.~\cite{Vellekoop2007focusing},
+or the coefficient of one Zernike polynomial in this section),
+we scan different values and retain the one that
+maximizes the intensity at the target location.
+}
 We first  generate a mask, represented by a disk,
 centered around the point of maximum intensity of the original image (refer to Fig.~\ref{fig:dmd_aberr_setup}.d)
 with a radius equivalent to a single speckle grain.
 The exact size of this radius for a successful optimization is not critical
-and can be determined by approximating the dimensions of the ideal point spread function,
+and can be determined by approximating the dimensions of the ideal PSF,
 expressed as $r_0 \approx M \frac{\lambda}{2 NA}$,
 where $NA$ is the numerical aperture of the optical system and $M$ refers to its magnification.
 For a given output intensity pattern, we compute an element-wise product between this image
 and the created mask, followed by a summation.
 This calculated sum is then divided by an analogous product, but with the complementary mask substituted in place of the original
-in order to minimize the side lobes of the point spread function.
+in order to minimize the side lobes of the PSF.
 We set initial parameter values as $a'_n = 0\,\, \forall n \in [0..N]$.
 For each parameter, we test different values of $a'_n$,
 construct the phases for every micropixel according to
@@ -1057,7 +1288,7 @@ To mitigate potential noise or instability, this complete process is reiterated 
 
 
 To estimate the quality of the correction,
-we compute the Strehl ratio of the point spread function.
+we compute the Strehl ratio of the PSF.
 It is defined as the maximum of the measured PSF divided
 by the maximum of the ideal one.
 This optimal PSF is
@@ -1109,9 +1340,9 @@ The experimental data, in addition to the Python code used to generate the figur
   \includegraphics[width = 0.95\textwidth]{images/Zernike_2.pdf}
   \caption{
     \textbf{Effect of Zernike polynomials on the optimization of the PSF.}
-    (a) Strehl ratio of the point spread function as a function of the number of Zernike polynomials used
+    (a) Strehl ratio of the PSF as a function of the number of Zernike polynomials used
     for the compensation of the aberrations.
-    (b) Intensity profile of the point spread function for different number of Zernike polynomials
+    (b) Intensity profile of the PSF for different number of Zernike polynomials
     in linear and logarithmic scale.
     To generate this data, we take the final solution of the optimization experimental procedure,
     i.e. the optimal coefficients $a'_n$,
@@ -1146,7 +1377,7 @@ We make use of the !aotools! package~\cite{Townson2019aotools} for generating Ze
   DMDs are not flat and can introduce aberrations;
   these are typically much stronger than those commonly observed with liquid crystal SLMs.
   This can be counteracted in situ using a standard setup and a straightforward optimization procedure
-  to maximize the intensity at the central position of the point spread function.
+  to maximize the intensity at the central position of the PSF.
 \end{tldr}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1244,7 +1475,7 @@ a fluctuation attributed to the rapid mechanical vibrations transmitted by the b
 \end{figure}
 
 
-A simple yet effective solution consists in dampening the vibrations
+A simple yet effective solution consists in damping the vibrations
 at the flat cable's level by clamping it with a soft material,
 as depicted in Fig.~\ref{fig:dumping}.
 This can be achieved using commonly available materials.
@@ -1259,7 +1490,7 @@ as demonstrated in Fig.~\ref{fig:phase_vibrations} (blue curve).\\
   \centering
   \includegraphics[width = 0.95\textwidth]{images/dumping.pdf}
   \caption{
-    \textbf{Dumping mechanical vibrations.}
+    \textbf{\red{Damping} mechanical vibrations.}
     Pictures of experimental setups where a damping of the vibrations is implemented.
     (a) The flat cable is secured with foam and metallic plates.
     (b) The flat cable is in tension against a foam material supported by a metallic plate.
@@ -1355,13 +1586,15 @@ $\left\langle . \right\rangle_{t}$
 represent the spatial averaging over the region of interest
 of the output plane (i.e. the plane of the camera sensor)
 and the temporal averaging over the measured frames.
-Fig.~\ref{fig:temp_decorr} shows the measured decorrelation
+Figure~\ref{fig:temp_decorr} shows the measured decorrelation
 over time when running an sequence in an infinite loop.
 $t=0$ correspond in the first case (a)
 to the start of a sequence
-and is set in the second one to
-4.2 hours post the after of the sequence (b).
-For the scenario (a), it is to note that before the sequence commenced,
+% and is set in the second one to
+% 4.2 hours post the after of the sequence (b).
+\red{and in the second case (b) is set to
+4.2 hours after the start of the sequence.}
+For the scenario (a), it is worth noting that before the sequence commenced,
 the DMD was active but remained in the idle state,
 meaning that it was not executing a sequence.
 We observe a non-negligible decorrelation over time
@@ -1425,7 +1658,7 @@ several effects need to be taken into account when using DMDs for wavefront shap
 First, the choice of its pixel pitch must be made carefully
 by considering the wavelength of operation
 to ensure a good modulation quality and diffraction efficiency.
-Furhtermore, the DMD surface is not flat and can introduce aberrations
+\red{Furthermore}, the DMD surface is not flat and can introduce aberrations
 which can be corrected using a simple optimization procedure.
 Finally, the DMD is sensitive to mechanical vibrations and thermal variations,
 which can be mitigated ensuring a good mechanical and thermal isolation of the device.
@@ -1437,85 +1670,183 @@ which can be mitigated ensuring a good mechanical and thermal isolation of the d
 \noindent Data and code examples are available in the dedicated repository~\cite{github}.
 
 
-% \section*{Appendix A: 1D calculation of the DMD diffraction effect}
-% \label{app:1D}
+\section*{Appendix A: 1D calculation of the DMD diffraction effect}
+\label{app:1D}
 
 
-% Assuming the effect of the device's finite size and illumination to be negligible,
+Assuming the effect of the device's finite size and illumination to be negligible,
 % and situating ourselves within the context of the small-angle approximation,
-% we can represent the field reflected from the device
-% under the influence of plane wave illumination
-% across two systems as follows:
+we can represent the field reflected from the device
+under the influence of plane wave illumination
+across two systems as follows.
+Here, $\theta_B$ denotes the blaze angle, i.e. the tilt of the micromirror normal
+with respect to the device normal, so that the corresponding specular direction is
+$2\theta_B-\alpha$:
 
+\begin{equation}
+  \begin{aligned}
+    R_\text{flat}(x)   & \propto
+    \left[\Pi\left(x/d'\right) \otimes_x \sum_k \delta(x-k d)\right]
+    e^{j\frac{2\pi}{\lambda}\sin(\alpha) x} \,,\\
+    R_\text{blazed}(x) & \propto
+    \underbrace{
+      \left(
+        \underbrace{\Pi\left(x/d'\right)}_\text{pixel size}
+        \,
+        \underbrace{e^{j \frac{2\pi}{\lambda}\left( \sin(2\theta_B-\alpha) - \sin(\alpha) \right) x}}_{\substack{\text{blazed angle}  \, , \\ \text{+ angle of incidence}}}
+      \right)
+    }_\text{pixel response}
+    \otimes_x
+    \underbrace{\sum_k \delta(x-k d) }_\text{periodicity}
+    \,
+    e^{j\frac{2\pi}{\lambda}\sin(\alpha) x}
+    \, .
+  \end{aligned}
+  \label{eq:grating_response}
+\end{equation}
 
-% \begin{equation}
-%   \begin{aligned}
-%     R_\text{flat}(x)   & \propto \left[\Pi\left(x/d'\right) \otimes_x \sum_k \delta(x-k d)\right]e^{-j\frac{2\pi}{\lambda}\text{sin}(\alpha) x} \\
-%     R_\text{blazed}(x) & \propto
-%     \underbrace{
-%       \left(
-%       \underbrace{\Pi\left(x/d'\right)}_\text{pixel size}
-%       \times
-%     \underbrace{e^{j\frac{2\pi}{\lambda}2\text{sin}(\theta_B-\alpha) x}}_{\substack{\text{blazed angle}                                         \\ \text{+ angle of incidence}}}
-%       \right)
-%     }_\text{pixel response}
-%     \otimes_x
-%     \left[
-%       \underbrace{\sum_k \delta(x-k d) }_\text{periodicitiy}
-%       .
-%       \underbrace{
-%         e^{-j\frac{2\pi}{\lambda}\text{sin}(\alpha) kd}
-%       }_\text{angle of incidence}
-%       \right]
-%     \, ,
-%   \end{aligned}
-%   \label{eq:grating_response}
-% \end{equation}
+with $\Pi(x)$ the rectangular function,
+representing the finite size of the pixel,
+defined as:
 
-% with $\Pi(x)$ the rectangular function,
-% representing the finite size of the pixel,
-% defined as:
+\begin{equation}
+  \Pi(x) =
+  \begin{cases}
+    1, & \text{if } -\frac{1}{2} < x < \frac{1}{2}, \\
+    0, & \text{otherwise}.
+  \end{cases}
+\end{equation}
 
-% \begin{equation}
-%   \Pi(x) =
-%   \begin{cases}
-%     1, & \text{if } -\frac{1}{2} < x < \frac{1}{2}, \\
-%     0, & \text{otherwise}.
-%   \end{cases}
-% \end{equation}
+The filling fraction, in the 1D case, is the ratio of the size of the pixels (or micro-mirrors) $d'$,
+and the pitch $d$, such that $d'=\rho d$.\\
+
 
 % The intensity as a function of the angle in the far-field
-% is given, up to a homotetic transformation,
+% is given, up to a homothetic transformation,
 % by the absolute value squared of
+The Fourier transform of Eq.~\ref{eq:grating_response} can be written as:
 
-% The Fourier transform of Eq.~\ref{eq:grating_response} can be written as:
+\begin{equation}
+  \begin{aligned}
+    I_\text{flat}(\theta) \propto
+      \sum_p \delta\bigl(\sin(\theta)+\sin(\alpha)-p\,\sin(\theta_D)\bigr)
+    \times
+    \operatorname{sinc}^2\left( \pi \rho\frac{
+        \sin(\theta)-\sin(\alpha)
+        }{
+        \sin(\theta_D)
+        }\right) \\
+    I_\text{blazed}(\theta) \propto
+    \underbrace{
+      \sum_p \delta\bigl(\sin(\theta)+\sin(\alpha)-p\,\sin(\theta_D)\bigr)
+    }_\text{orders of diffraction}
+    \times
+    \underbrace{
+      \operatorname{sinc}^2\left( \pi \rho\frac{
+        \sin(\theta)-\sin(2\theta_B - \alpha)
+        }{
+        \sin(\theta_D)
+        }\right)
+    }_\text{envelope} \, .
+  \end{aligned}
+\end{equation}
 
+We observe that the envelope (right-hand term) is maximal for
+$\sin(\theta_\text{max}) = \sin(2\theta_B - \alpha)$,
+while the effect of the periodicity (left-hand term) is maximal when
+$\sin(\theta_p) + \sin(\alpha) = p\,\lambda/d$,
+representing the orders of diffraction.
 
-
-
-
-
-% \begin{equation}
-%   \begin{aligned}
-%     I_\text{flat}(\theta) \propto
-%     \sum_p \delta(\text{sin}(\theta)+\text{sin}(\alpha))
-%     \times
-%     \text{sinc}^2\left( \left[\text{sin}(\theta)+\text{sin}(\alpha)\right] \frac{\lambda}{d'}\right) \\
-%     I_\text{blazed}(\theta) \propto
-%     \underbrace{
-%       \sum_p \delta(\text{sin}(\theta)+\text{sin}(\alpha)-p\,\theta_D)
-%     }_\text{orders of diffraction}
-%     \times
-%     \underbrace{
-%       \text{sinc}^2\left( \left[\text{sin}(\theta)+\text{sin}(\alpha)\right] \frac{\lambda}{d'}\right)
-%     }_\text{envelope} \, .
-%   \end{aligned}
-% \end{equation}
 
 
 % We observe that the envelope (right hand term) is maximal for $\text{sin}(\theta_{max}) = \text{sin}(\alpha-2\theta_B)$
 % while the effect of the periodicity (left hand term) is maximal for $\text{sin}(\theta_p)+ \text{sin}(\alpha) = p \lambda/d$,
 % representing the orders of diffraction.
+
+
+\section*{Appendix B: 2D calculation of blazed grating condition}
+
+
+To analyze more precisely the effect of diffraction in a DMD,
+one needs to consider the 2D surface of the modulator.
+We can establish a Cartesian coordinate system on the plane of the DMD,
+with axes $x$ and $y$ aligned with the pixel sides
+(refer to Fig.~\ref{fig:2d_geom}a).
+The pixels are uniformly repeated along these axes.
+However, a technical challenge arises
+in that the axis of rotation of the pixels
+aligns with the pixel diagonals,
+resulting in a rotation by 45 degrees with respect to the $x$ and $y$ axes.
+For the convenience of alignment and manipulation of the optical setup,
+it is preferable to work with the incident and outgoing beams
+which have the optical axis contained in the horizontal plane,
+i.e. a plane parallel to the table surface.
+A straightforward and common solution is to rotate the chip by 45 degrees
+relative to the horizontal plane,
+which aligns the pixel axis of rotation to be vertical.
+
+A more detailed description of the 2D system 
+and computation of its response 
+can be found in~\cite{Scholes2019structured}.
+However, we can find a simple condition for
+having most of the energy in one diffraction order 
+by looking at the effect of the tilts of the mirrors 
+when the axis is rotated by 45 degrees compared to 
+the axis of the pixel array (axes $x$ and $y$). 
+We consider a plane wave with an incoming angle $\alpha$ contained in the horizontal plane 
+(i.e. orthogonal to the rotation axis of the micro-mirrors).
+The effect of this angle is represented by a phase term of the form:
+
+\begin{equation}
+{\vec{k}_{in}\cdot\vec{r}} = {\frac{2\pi}{\lambda}\sin\alpha \frac{\left(x - y\right)}{\sqrt{2}}}
+\, ,
+\end{equation}
+
+with $\vec{k}_{in}$ the incoming wavevector and $\vec{r}$ the position in the modulator plane, 
+represented by the coordinate $(x,y)$.
+
+The grating condition is achieved when the output contributions are in phase 
+for the output angle corresponding to the specular reflection on the tilted mirrors. 
+It corresponds to the plot on the left in Fig.\ref{fig:gratings} for the 1D case.
+The phase contribution resulting from an output angle $2\theta_B-\alpha$, 
+corresponding to the specular reflection on each micro-mirror,
+reads:
+
+\begin{equation}
+\vec{k}_{out}\cdot\vec{r} 
+= {\frac{2\pi}{\lambda}\sin\left(2\theta_B - \alpha\right) \frac{\left(x - y\right)}{\sqrt{2}}}
+\, ,
+\end{equation}
+
+The total phase then reads:
+
+\begin{equation}
+\phi(x,y) = \vec{k}_{in}.\vec{r}  + \vec{k}_{out}.\vec{r} =  
+{\frac{2\pi}{\lambda}\sin\left(2\theta - \alpha\right) \frac{\left(x - y\right)}{\sqrt{2}}} +
+{\frac{2\pi}{\lambda}\sin\alpha \frac{\left(x - y\right)}{\sqrt{2}}} 
+\, .
+\end{equation}
+
+
+
+
+We see that $x$ and $y$ have the same effect.
+The grating condition is then achieved when two consecutive pixels, 
+separated by a distance $d$ in both the $x$ and $y$ directions, are in phase.
+I.e. for
+
+\begin{equation}
+  \phi(x,y) = \phi(x+d,y) = \phi(x,y+d) \, .
+\end{equation}
+
+The new blazed grating equation then reads~:
+
+\begin{equation}
+  \text{sin}(2\theta_B-\alpha) + \text{sin}(\alpha)
+  = 2 \,\text{sin}(\theta_B)  \,\text{cos}(\theta_B-\alpha)
+  = p\frac{\sqrt{2}\lambda}{d} \, ,
+  \label{eq:blazed_eq_new}
+\end{equation}
 
 \section*{Acknowledgments}
 
